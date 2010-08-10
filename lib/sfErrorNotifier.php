@@ -16,32 +16,6 @@ class sfErrorNotifier
   
   /**
    * 
-   * @var sfEventDispatcher
-   */
-  protected $dispather;
-  
-  /**
-   * 
-   * @param sfEventDispatcher $dispather
-   * 
-   * @return void
-   */
-  public function __construct(sfEventDispatcher $dispather)
-  {
-    $this->dispather = $dispather;
-  }
-  
-  /**
-   * 
-   * @return sfEventDispatcher
-   */
-  public function dispather()
-  {
-    return $this->dispather;
-  }
-  
-  /**
-   * 
    * @param sfBaseErrorNotifierMessage
    * 
    * @return sfBaseErrorNotifierDecorator

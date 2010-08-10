@@ -44,21 +44,6 @@ class sfErrorNotifierHandler
     set_error_handler(array($this, 'handleError'), (int) $this->options['error_reporting']);
     register_shutdown_function(array($this, 'handleFatalError'));
     set_exception_handler(array($this, 'handleException'));
-    
-    $dispather = $this->notifier()->dispather();
-    $dispather->connect('application.throw_exception', array($this, 'handleEvent'));
-    $dispather->connect('controller.page_not_found', array($this, 'handleEvent'));
-  }
-  
-  /**
-   * 
-   * @param sfEvent $event
-   * 
-   * @return void
-   */
-  public function handleEvent(sfEvent $event)
-  {
-    return $this->handleException($event->getSubject());
   }
   
   /**
@@ -71,7 +56,6 @@ class sfErrorNotifierHandler
   {
     $message = $this->notifier()->decoratedMessage($e->getMessage());    
     $message->addSection('Exception', $this->notifier()->helper()->formatException($e));
-    $message->addSection('Server', $this->notifier()->helper()->formatServer());
     
     $this->notifier()->driver()->notify($message);
   }
