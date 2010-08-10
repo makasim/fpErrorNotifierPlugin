@@ -23,9 +23,16 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
     $stubMessage = new fpErrorNotifierDecoratorText($stubMessage);
     
     $mockDriver = $this->getMockForAbstractClass('fpBaseErrorNotifierDriver');
+    
+    $stubRequest = $this->getStub(
+      'sfWebRequest', array('getUri' => 'www.example.com'), array(), '', false);
    
     $mockLogger = $this->getMock('sfLogger', array('info', 'doLog'), array(), '', false);
-    $stubContext = $this->getStub('sfContext', array('getLogger' => $mockLogger));   
+    $stubContext = $this->getStub('sfContext', array(
+      'getLogger' => $mockLogger,
+      'getRequest' => $stubRequest,
+      'getModuleName' => 'fooModule',
+      'getActionName' => 'fooAction'));   
     
     $notifier = $this->getStub('fpErrorNotifier', array(
       'decoratedMessage' => $stubMessage,
