@@ -9,15 +9,15 @@ h1. Installation
 # download:
 ## pear package    
 <pre>
-  php symfony plugin:install sfErrorNotifier2Plugin  
+  php symfony plugin:install fpErrorNotifierPlugin  
 </pre>
 ## svn tag 
 <pre>
-  svn checkout http://svn.symfony-project.com/plugins/sfErrorNotifier2Plugin/tags/sfErrorNotifier2Plugin-1.0.0
+  svn checkout http://svn.symfony-project.com/plugins/fpErrorNotifierPlugin/tags/fpErrorNotifierPlugin-1.0.0
 </pre>
 ## dev version:
 <pre>
-  svn checkout http://svn.symfony-project.com/plugins/sfErrorNotifier2Plugin/trunk
+  svn checkout http://svn.symfony-project.com/plugins/fpErrorNotifierPlugin/trunk
 </pre>
 # enable it in ProjectConfiguration:
 <pre>
@@ -25,7 +25,7 @@ h1. Installation
   {
     public function setup()
     {
-      $this->enablePlugins('sfErrorNotifier2Plugin');
+      $this->enablePlugins('fpErrorNotifierPlugin');
     }
   }
 </pre>
@@ -58,18 +58,18 @@ all:
   enabled:           false
   
   driver:
-    class:           sfErrorNotifierDriverFile
+    class:           fpErrorNotifierDriverFile
     options:        
       path:          '%SF_LOG_DIR%/last-error.html'
       
 #  driver:
-#    class:           sfErrorNotifierDriverNativeMail
+#    class:           fpErrorNotifierDriverNativeMail
 #    options:
 #      to:            developer1@example.com,developer2@example.com
 #      from:          mail-from@example.com
   
   message:
-    class:          sfErrorNotifierMessageHtml
+    class:          fpErrorNotifierMessageHtml
 </pre>
 
 As you see we have:
@@ -88,7 +88,7 @@ Below the configuration as you see you can set from mail and as many recipients 
 _notify.yml_
 <pre>
   driver:
-    class:           sfErrorNotifierDriverNativeMail
+    class:           fpErrorNotifierDriverNativeMail
     options:
       to:            first.developer@example.com,second.developer@example.com
       from:          noreplay@your-project.com
@@ -119,7 +119,7 @@ _factories.yml_
 _notify.yml_
 <pre>
   driver:
-    class:           sfErrorNotifierMailSymfony
+    class:           fpErrorNotifierMailSymfony
     options:
       to:            first.developer@example.com,second.developer@example.com
       from:          noreplay@your-project.com
@@ -132,7 +132,7 @@ To log last error in the file:
 _notify.yml_
 <pre>
   driver:
-    class:           sfErrorNotifierDriverFile
+    class:           fpErrorNotifierDriverFile
     options:        
       path:          '%SF_LOG_DIR%/last-error.html'
 </pre>
@@ -146,14 +146,14 @@ For rendering messages as *html* set to _notify.yml_ next option:
 _notify.yml_
 <pre>
   message:
-    class:          sfErrorNotifierMessageHtml
+    class:          fpErrorNotifierMessageHtml
 </pre>
 
 For rendering messages as *text* set to _notify.yml_ next option:
 
 <pre>
   message:
-    class:          sfErrorNotifierMessageText
+    class:          fpErrorNotifierMessageText
 </pre>
 
 h3. Customizing 
@@ -174,14 +174,14 @@ There is ability to send custom messages with your own information. Please look 
        'api_key' => 'api key'));
 
    // create a message using factory and send email through a driver defined in notify.yml
-   $message = sfBaseErrorNotifierMessage::get($text, $data);
-   sfErrorNotifier::notify($message);
+   $message = fpBaseErrorNotifierMessage::get($text, $data);
+   fpErrorNotifier::notify($message);
 
    // create message instance manualy:
-   $message = new sfErrorNotifierMessageText($text, $data);
+   $message = new fpErrorNotifierMessageText($text, $data);
    
 
-   $driver = new sfErrorNotifierDriverMailNative(array(
+   $driver = new fpErrorNotifierDriverMailNative(array(
      'to' => 'first.developer@example.com',
      'frp,' => 'noreplay@yout-project.com'));
 

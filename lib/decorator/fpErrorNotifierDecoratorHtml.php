@@ -2,12 +2,12 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage decorator 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierDecoratorHtml extends sfBaseErrorNotifierDecorator
+class fpErrorNotifierDecoratorHtml extends fpBaseErrorNotifierDecorator
 {
   /**
    * 

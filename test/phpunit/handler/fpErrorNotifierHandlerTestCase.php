@@ -2,75 +2,75 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage test 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierHandlerTestCase extends sfBasePhpunitTestCase
+class fpErrorNotifierHandlerTestCase extends sfBasePhpunitTestCase
 {
   protected $notifierBackup;
   
   protected function _start()
   {
-    $this->notifierBackup = sfErrorNotifier::getInstance();
+    $this->notifierBackup = fpErrorNotifier::getInstance();
     
-    $stubHelper = $this->getStubStrict('sfErrorNotifierMessageHelper', array(
+    $stubHelper = $this->getStubStrict('fpErrorNotifierMessageHelper', array(
       'formatSumary' => array('section' => 'desciption'),
       'formatException' => array('foo' => 'bar')));
     
-    $stubMessage = new sfErrorNotifierMessage('foo title');
-    $stubMessage = new sfErrorNotifierDecoratorText($stubMessage);
+    $stubMessage = new fpErrorNotifierMessage('foo title');
+    $stubMessage = new fpErrorNotifierDecoratorText($stubMessage);
     
-    $mockDriver = $this->getMockForAbstractClass('sfBaseErrorNotifierDriver');   
+    $mockDriver = $this->getMockForAbstractClass('fpBaseErrorNotifierDriver');   
     
-    $notifier = $this->getStub('sfErrorNotifier', array(
+    $notifier = $this->getStub('fpErrorNotifier', array(
       'decoratedMessage' => $stubMessage,
       'helper' => $stubHelper,
       'driver' => $mockDriver,
       'dispather' => new sfEventDispatcher()), array(), '', false);
     
-    sfErrorNotifier::setInstance($notifier);
+    fpErrorNotifier::setInstance($notifier);
   }
   
   protected function _end()
   {
-    sfErrorNotifier::setInstance($this->notifierBackup);
+    fpErrorNotifier::setInstance($this->notifierBackup);
   }
   
   public function testHandleException()
   { 
-    $notifier = sfErrorNotifier::getInstance();
+    $notifier = fpErrorNotifier::getInstance();
     $notifier->driver()
       ->expects($this->once())
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new sfErrorNotifierHandler();
+    $handler = new fpErrorNotifierHandler();
     $handler->handleException(new Exception('an exception'));
   }
   
   public function testHandleError()
   {    
-    $notifier = sfErrorNotifier::getInstance();
+    $notifier = fpErrorNotifier::getInstance();
     $notifier->driver()
       ->expects($this->once())
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new sfErrorNotifierHandler(array());
+    $handler = new fpErrorNotifierHandler(array());
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
   
   public function testHandleEventExceptionThrown()
   {    
-    $notifier = sfErrorNotifier::getInstance();
+    $notifier = fpErrorNotifier::getInstance();
     $notifier->driver()
       ->expects($this->once())
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new sfErrorNotifierHandler(array());
+    $handler = new fpErrorNotifierHandler(array());
     $notifier->dispather()
       ->connect('application.throw_exception', array($handler, 'handleEvent'));
   
@@ -80,13 +80,13 @@ class sfErrorNotifierHandlerTestCase extends sfBasePhpunitTestCase
   
   public function testHandleEventPageNotFound()
   {    
-    $notifier = sfErrorNotifier::getInstance();
+    $notifier = fpErrorNotifier::getInstance();
     $notifier->driver()
       ->expects($this->once())
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new sfErrorNotifierHandler(array());
+    $handler = new fpErrorNotifierHandler(array());
     $notifier->dispather()
       ->connect('controller.page_not_found', array($handler, 'handleEvent'));
   

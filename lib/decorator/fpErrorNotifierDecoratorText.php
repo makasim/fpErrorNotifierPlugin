@@ -2,12 +2,12 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage decorator 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierDecoratorText extends sfBaseErrorNotifierDecorator
+class fpErrorNotifierDecoratorText extends fpBaseErrorNotifierDecorator
 {
   /**
    * 

@@ -2,75 +2,82 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage test 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
+class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
 {
   protected $notifierBackup;
   
   protected function _start()
   {
-    $this->notifierBackup = sfErrorNotifier::getInstance();
+    $this->notifierBackup = fpErrorNotifier::getInstance();
     
-    $stubHelper = $this->getStub('sfErrorNotifierMessageHelper', array(
+    $stubHelper = $this->getStub('fpErrorNotifierMessageHelper', array(
       'formatSumary' => array('section' => 'desciption'),
       'formatException' => array('foo' => 'bar')));
     
-    $stubMessage = new sfErrorNotifierMessage('foo title');
-    $stubMessage = new sfErrorNotifierDecoratorText($stubMessage);
+    $stubMessage = new fpErrorNotifierMessage('foo title');
+    $stubMessage = new fpErrorNotifierDecoratorText($stubMessage);
     
-    $mockDriver = $this->getMockForAbstractClass('sfBaseErrorNotifierDriver');
+    $mockDriver = $this->getMockForAbstractClass('fpBaseErrorNotifierDriver');
+    
+    $stubRequest = $this->getStub(
+      'sfWebRequest', array('getUri' => 'www.example.com'), array(), '', false);
    
     $mockLogger = $this->getMock('sfLogger', array('info', 'doLog'), array(), '', false);
-    $stubContext = $this->getStub('sfContext', array('getLogger' => $mockLogger));   
+    $stubContext = $this->getStub('sfContext', array(
+      'getLogger' => $mockLogger,
+      'getRequest' => $stubRequest,
+      'getModuleName' => 'fooModule',
+      'getActionName' => 'fooAction'));   
     
-    $notifier = $this->getStub('sfErrorNotifier', array(
+    $notifier = $this->getStub('fpErrorNotifier', array(
       'decoratedMessage' => $stubMessage,
       'helper' => $stubHelper,
       'driver' => $mockDriver,
       'dispather' => new sfEventDispatcher(),
       'context' => $stubContext), array(), '', false);
     
-    sfErrorNotifier::setInstance($notifier);
+    fpErrorNotifier::setInstance($notifier);
   }
   
   protected function _end()
   {
-    sfErrorNotifier::setInstance($this->notifierBackup);
+    fpErrorNotifier::setInstance($this->notifierBackup);
   }
   
   public function testHandleException()
   { 
-    $mockDriver = sfErrorNotifier::getInstance()->driver();
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
     $mockDriver
       ->expects($this->once())
       ->method('notify');
       
-    $mockLogger = sfErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
     $mockLogger
       ->expects($this->never())
       ->method('info');
     
-    $handler = new sfErrorNotifierHandlerIgnore(array());
+    $handler = new fpErrorNotifierHandlerIgnore(array());
     $handler->handleException(new Exception('an exception'));
   }
   
   public function testHandleExceptionIgnoreLoggingEnabled()
   { 
-    $mockDriver = sfErrorNotifier::getInstance()->driver();
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
     $mockDriver
       ->expects($this->never())
       ->method('notify');
       
-    $mockLogger = sfErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
     $mockLogger
       ->expects($this->once())
       ->method('info');
     
-    $handler = new sfErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(array(
       'ignore_exceptions' => array('Exception'),
       'log_ignored' => true));
     
@@ -79,17 +86,17 @@ class sfErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
   
   public function testHandleExceptionIgnoreLoggingDisabled()
   { 
-    $mockDriver = sfErrorNotifier::getInstance()->driver();
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
     $mockDriver
       ->expects($this->never())
       ->method('notify');
       
-    $mockLogger = sfErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
     $mockLogger
       ->expects($this->never())
       ->method('info');
     
-    $handler = new sfErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(array(
       'ignore_exceptions' => array('Exception'),
       'log_ignored' => false));
     
@@ -98,33 +105,33 @@ class sfErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
   
   public function testHandleError()
   { 
-    $mockDriver = sfErrorNotifier::getInstance()->driver();
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
     $mockDriver
       ->expects($this->once())
       ->method('notify');
       
-    $mockLogger = sfErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
     $mockLogger
       ->expects($this->never())
       ->method('info');
     
-    $handler = new sfErrorNotifierHandlerIgnore(array());
+    $handler = new fpErrorNotifierHandlerIgnore(array());
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
   
   public function testHandleErrorIgnoreSetToFalse()
   { 
-    $mockDriver = sfErrorNotifier::getInstance()->driver();
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
     $mockDriver
       ->expects($this->once())
       ->method('notify');
       
-    $mockLogger = sfErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
     $mockLogger
       ->expects($this->never())
       ->method('info');
     
-    $handler = new sfErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(array(
       'ignore_errors' => array(E_WARNING => false)));
     
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
@@ -132,17 +139,17 @@ class sfErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
   
   public function testHandleErrorIgnoreLoggingEnabled()
   {   
-    $mockDriver = sfErrorNotifier::getInstance()->driver();
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
     $mockDriver
       ->expects($this->never())
       ->method('notify');
       
-    $mockLogger = sfErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
     $mockLogger
       ->expects($this->once())
       ->method('info');
     
-    $handler = new sfErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(array(
       'ignore_errors' => array(E_WARNING => true),
       'log_ignored' => true));
     
@@ -151,17 +158,17 @@ class sfErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
   
   public function testHandleErrorIgnoreLoggingDisabled()
   { 
-    $mockDriver = sfErrorNotifier::getInstance()->driver();
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
     $mockDriver
       ->expects($this->never())
       ->method('notify');
       
-    $mockLogger = sfErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
     $mockLogger
       ->expects($this->never())
       ->method('info');
     
-    $handler = new sfErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(array(
       'ignore_errors' => array(E_WARNING => true),
       'log_ignored' => false));
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);

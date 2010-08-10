@@ -2,25 +2,25 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifier
+class fpErrorNotifier
 {
   /**
    * 
-   * @var sfErrorNotifier
+   * @var fpErrorNotifier
    */
   protected static $instance;
   
   /**
    * 
-   * @param sfBaseErrorNotifierMessage
+   * @param fpBaseErrorNotifierMessage
    * 
-   * @return sfBaseErrorNotifierDecorator
+   * @return fpBaseErrorNotifierDecorator
    */
-  public function decorator(sfBaseErrorNotifierMessage $message)
+  public function decorator(fpBaseErrorNotifierMessage $message)
   {
     $options = sfConfig::get('sf_notify_decorator');
     $class = $options['class'];
@@ -30,7 +30,7 @@ class sfErrorNotifier
 
   /**
    * 
-   * @return sfBaseErrorNotifierDriver
+   * @return fpBaseErrorNotifierDriver
    */
   public function driver()
   {
@@ -44,7 +44,7 @@ class sfErrorNotifier
    * 
    * @param string $title
    * 
-   * @return sfBaseErrorNotifierMessage
+   * @return fpBaseErrorNotifierMessage
    */
   public function message($title)
   {
@@ -58,7 +58,7 @@ class sfErrorNotifier
    * 
    * @param string $title
    * 
-   * @return sfBaseErrorNotifierDecorator
+   * @return fpBaseErrorNotifierDecorator
    */
   public function decoratedMessage($title)
   {
@@ -67,7 +67,7 @@ class sfErrorNotifier
   
   /**
    * 
-   * @return sfErrorNotifierHandler
+   * @return fpErrorNotifierHandler
    */
   public function handler()
   {
@@ -79,7 +79,7 @@ class sfErrorNotifier
   
   /**
    * 
-   * @return sfErrorNotifierMessageHelper
+   * @return fpErrorNotifierMessageHelper
    */
   public function helper()
   {
@@ -91,18 +91,18 @@ class sfErrorNotifier
   
   /**
    * 
-   * @return sfContext|sfErrorNotifierNullObject
+   * @return sfContext|fpErrorNotifierNullObject
    */
   public function context()
   {
     return sfContext::hasInstance() ? 
       sfContext::getInstance() : 
-      new sfErrorNotifierNullObject();
+      new fpErrorNotifierNullObject();
   }
   
   /**
    * 
-   * @return sfErrorNotifier
+   * @return fpErrorNotifier
    */
   public static function getInstance()
   {
@@ -111,11 +111,11 @@ class sfErrorNotifier
   
   /**
    * 
-   * @param sfErrorNotifier
+   * @param fpErrorNotifier
    * 
-   * @return sfErrorNotifier
+   * @return fpErrorNotifier
    */
-  public static function setInstance(sfErrorNotifier $notifier)
+  public static function setInstance(fpErrorNotifier $notifier)
   {
     return self::$instance = $notifier;
   }

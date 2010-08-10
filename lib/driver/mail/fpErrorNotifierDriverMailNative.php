@@ -2,18 +2,18 @@
 
 /** 
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage driver 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierDriverMailNative extends sfBaseErrorNotifierDriverMail
+class fpErrorNotifierDriverMailNative extends fpBaseErrorNotifierDriverMail
 {
   /**
    * 
-   * @param sfBaseErrorNotifierMessage $message
+   * @param fpBaseErrorNotifierMessage $message
    */
-  public function notify(sfBaseErrorNotifierMessage $message)
+  public function notify(fpBaseErrorNotifierMessage $message)
   {
     $headers = "From: {$this->getOption('from')}\r\n";
     $headers .= "Content-type: {$message->format()}\r\n";  

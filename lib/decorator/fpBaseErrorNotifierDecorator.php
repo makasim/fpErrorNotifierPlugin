@@ -2,24 +2,24 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage decorator 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-abstract class sfBaseErrorNotifierDecorator extends sfBaseErrorNotifierMessage
+abstract class fpBaseErrorNotifierDecorator extends fpBaseErrorNotifierMessage
 {
   /**
    * 
-   * @var sfBaseErrorNotifierMessage
+   * @var fpBaseErrorNotifierMessage
    */
   protected $message;
   
   /**
    * 
-   * @param sfBaseErrorNotifierMessage $message
+   * @param fpBaseErrorNotifierMessage $message
    */
-  public function __construct(sfBaseErrorNotifierMessage $message)
+  public function __construct(fpBaseErrorNotifierMessage $message)
   {
     $this->message = $message;
   }
@@ -82,35 +82,31 @@ abstract class sfBaseErrorNotifierDecorator extends sfBaseErrorNotifierMessage
    * @param string $name
    * @param array $data
    * 
-   * @return sfErrorNotifierMessage
+   * @return fpErrorNotifierMessage
    */
   public function addSection($name, array $data)
   {
-    $this->message->addSection($name, $data);
-    
-    return $this;
+    return $this->message->addSection($name, $data);
   }
   
   /**
    * 
    * @param string $name
    * 
-   * @return sfErrorNotifierMessage
+   * @return fpErrorNotifierMessage
    */
   public function removeSection($name)
   {
-    $this->message->removeSection($name);
-    
-    return $this;
+    return $this->message->removeSection($name);
   }
   
   /**
    * 
    * @return string 
    */
-  public function getSubject()
+  public function subject()
   {
-    return $this->message->getSubject();
+    return $this->message->subject();
   }
   
   /**
@@ -124,10 +120,10 @@ abstract class sfBaseErrorNotifierDecorator extends sfBaseErrorNotifierMessage
   
   /**
    * 
-   * @return sfErrorNotifier
+   * @return fpErrorNotifier
    */
   protected function notifier()
   {
-    return sfErrorNotifier::getInstance();
+    return fpErrorNotifier::getInstance();
   }
 }

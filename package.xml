@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.6" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-  <name>sfErrorNotifier2Plugin</name>
+  <name>fpErrorNotifierPlugin</name>
   <channel>plugins.symfony-project.org</channel>
   <summary>
-    It is a refactored version of sfErrorNotifierPlugin plugin. It caught all kind of errors like: exceptions, fatal errors, notices, memory limits and so on. Also it was made as set of components message, driver, decorator to provide main functionality and easy way to change everything you want.
+    It is a refactored version of fpErrorNotifierPlugin plugin. It caught all kind of errors like: exceptions, fatal errors, notices, memory limits and so on. Also it was made as set of components message, driver, decorator to provide main functionality and easy way to change everything you want.
   </summary>
   <description>-</description>
 	<lead>
@@ -28,24 +28,24 @@
     <dir name="/">
       <dir name="config">
         <file role="data" name="notify.yml" />
-        <file role="data" name="sfErrorNotifier2PluginConfiguration.class.php" />
+        <file role="data" name="fpErrorNotifierPluginConfiguration.class.php" />
       </dir>
       <dir name="lib">
         <dir name="driver">
-          <file role="data" name="sfBaseErrorNotifierDriver.php" />
-          <file role="data" name="sfBaseErrorNotifierDriverMail.php" />
-          <file role="data" name="sfErrorNotifierDriverFile.php" />
-          <file role="data" name="sfErrorNotifierDriverMailNative.php" />
-          <file role="data" name="sfErrorNotifierDriverMailSymfony.php" />
+          <file role="data" name="fpBaseErrorNotifierDriver.php" />
+          <file role="data" name="fpBaseErrorNotifierDriverMail.php" />
+          <file role="data" name="fpErrorNotifierDriverFile.php" />
+          <file role="data" name="fpErrorNotifierDriverMailNative.php" />
+          <file role="data" name="fpErrorNotifierDriverMailSymfony.php" />
         </dir>      
         <dir name="message">
-          <file role="data" name="sfBaseErrorNotifierMessage.php" />
-          <file role="data" name="sfErrorNotifierMessageHtml.php" />
-          <file role="data" name="sfErrorNotifierMessageText.php" />
+          <file role="data" name="fpBaseErrorNotifierMessage.php" />
+          <file role="data" name="fpErrorNotifierMessageHtml.php" />
+          <file role="data" name="fpErrorNotifierMessageText.php" />
         </dir>
-        <file role="data" name="sfErrorNotifier.php" />
-        <file role="data" name="sfErrorNotifierHandler.php" />
-        <file role="data" name="sfErrorNotifierNullContext.php" />
+        <file role="data" name="fpErrorNotifier.php" />
+        <file role="data" name="fpErrorNotifierHandler.php" />
+        <file role="data" name="fpErrorNotifierNullContext.php" />
       </dir>
 		  <file role="data" name="LICENSE" />
 		  <file role="data" name="README" />

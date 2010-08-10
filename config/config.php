@@ -1,7 +1,7 @@
 <?php
 
 $configFiles = array(
-  sfConfig::get('sf_plugins_dir').'/sfErrorNotifier2Plugin/config/notify.yml');
+  sfConfig::get('sf_plugins_dir').'/fpErrorNotifierPlugin/config/notify.yml');
 
 $finder = sfFinder::type('file')->name('notify.yml');
 $configFiles = array_merge(
@@ -22,8 +22,10 @@ foreach ($config as $name => $value) {
   sfConfig::set("sf_notify_{$name}", $value);  
 }
 
-sfErrorNotifier::setInstance(new sfErrorNotifier());
-sfErrorNotifier::getInstance()->handler()->initialize();
+fpErrorNotifier::setInstance(new fpErrorNotifier($this->getEventDispatcher()));
+fpErrorNotifier::getInstance()->handler()->initialize();
+
+// start util function 
 
 function mergeEnvironment($config)
 {  
