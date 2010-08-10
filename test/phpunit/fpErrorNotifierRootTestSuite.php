@@ -1,6 +1,6 @@
 <?php
 
-class sfErrorNotifier2RootTestSuite extends sfBasePhpunitTestSuite
+class fpErrorNotifierRootTestSuite extends sfBasePhpunitTestSuite
 {
 	/**
 	 * Dev hook for custom "setUp" stuff

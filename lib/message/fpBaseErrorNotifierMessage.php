@@ -2,12 +2,12 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage message 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-abstract class sfBaseErrorNotifierMessage implements IteratorAggregate
+abstract class fpBaseErrorNotifierMessage implements IteratorAggregate
 {  
   /**
    * 
@@ -61,7 +61,7 @@ abstract class sfBaseErrorNotifierMessage implements IteratorAggregate
    * @param string $name
    * @param array $data
    * 
-   * @return sfErrorNotifierMessage
+   * @return fpErrorNotifierMessage
    */
   public function addSection($name, array $data)
   {
@@ -74,7 +74,7 @@ abstract class sfBaseErrorNotifierMessage implements IteratorAggregate
    * 
    * @param string $name
    * 
-   * @return sfErrorNotifierMessage
+   * @return fpErrorNotifierMessage
    */
   public function removeSection($name)
   {
@@ -103,10 +103,10 @@ abstract class sfBaseErrorNotifierMessage implements IteratorAggregate
   
   /**
    * 
-   * @return sfErrorNotifier
+   * @return fpErrorNotifier
    */
   protected function notifier()
   {
-    return sfErrorNotifier::getInstance();
+    return fpErrorNotifier::getInstance();
   }
 }

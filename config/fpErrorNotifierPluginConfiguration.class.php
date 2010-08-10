@@ -2,12 +2,12 @@
 
 /** 
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage config 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifier2PluginConfiguration extends sfPluginConfiguration
+class fpErrorNotifierPluginConfiguration extends sfPluginConfiguration
 {
   /**
    * 
@@ -22,14 +22,14 @@ class sfErrorNotifier2PluginConfiguration extends sfPluginConfiguration
   
   /**
    * 
-   * @return sfErrorNotifier
+   * @return fpErrorNotifier
    */
   protected function notifier()
   {
-    sfErrorNotifier::setInstance(
-      new sfErrorNotifier($this->configuration->getEventDispatcher()));
+    fpErrorNotifier::setInstance(
+      new fpErrorNotifier($this->configuration->getEventDispatcher()));
       
-    return sfErrorNotifier::getInstance();
+    return fpErrorNotifier::getInstance();
   }
   
   /**

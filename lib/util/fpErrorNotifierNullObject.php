@@ -4,12 +4,12 @@
  * 
  * Universal implementaion of Null object pattern.
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage util 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierNullObject implements IteratorAggregate
+class fpErrorNotifierNullObject implements IteratorAggregate
 {
   public function __get($name)
   {

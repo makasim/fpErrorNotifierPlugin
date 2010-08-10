@@ -2,12 +2,12 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage handler 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierHandlerIgnore extends sfErrorNotifierHandler
+class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
 { 
   /**
    * 
@@ -77,7 +77,7 @@ class sfErrorNotifierHandlerIgnore extends sfErrorNotifierHandler
     if (!$this->options['log_ignored']) return;
     
     $this->notifier()->context()->getLogger()->info(
-      'sfErrorNotifierPlugin: Ignored exception `'.get_class($e).'`. Message `'.$e->getMessage().
+      'fpErrorNotifierPlugin: Ignored exception `'.get_class($e).'`. Message `'.$e->getMessage().
       '`. File `'.$e->getFile().'`. Line `'.$e->getLine().'`'); 
   }
 }

@@ -2,12 +2,12 @@
 
 /** 
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage driver 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-abstract class sfBaseErrorNotifierDriver
+abstract class fpBaseErrorNotifierDriver
 { 
   /**
    * 
@@ -26,11 +26,11 @@ abstract class sfBaseErrorNotifierDriver
   
   /**
    * 
-   * @param sfBaseErrorNotifierMessage $message
+   * @param fpBaseErrorNotifierMessage $message
    * 
    * @return void
    */
-  abstract public function notify(sfBaseErrorNotifierMessage $message);
+  abstract public function notify(fpBaseErrorNotifierMessage $message);
   
   /**
    * 

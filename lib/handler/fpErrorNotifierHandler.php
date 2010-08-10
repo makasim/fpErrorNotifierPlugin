@@ -2,12 +2,12 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage handler 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierHandler
+class fpErrorNotifierHandler
 { 
   /**
    * 
@@ -117,10 +117,10 @@ class sfErrorNotifierHandler
 	
 	/**
 	 * 
-	 * @return sfErrorNotifier
+	 * @return fpErrorNotifier
 	 */
 	protected function notifier()
 	{
-	  return sfErrorNotifier::getInstance();
+	  return fpErrorNotifier::getInstance();
 	}
 }

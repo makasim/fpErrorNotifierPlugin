@@ -2,39 +2,39 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage test 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierMessageTestCase extends sfBasePhpunitTestCase
+class fpErrorNotifierMessageTestCase extends sfBasePhpunitTestCase
 {
   protected $notifierBackup;
   
   protected function _start()
   {
-    $this->notifierBackup = sfErrorNotifier::getInstance();
+    $this->notifierBackup = fpErrorNotifier::getInstance();
     
-    $notifier = new sfErrorNotifier(new sfEventDispatcher());
-    sfErrorNotifier::setInstance($notifier);
+    $notifier = new fpErrorNotifier(new sfEventDispatcher());
+    fpErrorNotifier::setInstance($notifier);
   }
   
   protected function _end()
   {
-    sfErrorNotifier::setInstance($this->notifierBackup);
+    fpErrorNotifier::setInstance($this->notifierBackup);
   }
   
   public function testConstruct()
   {
-    $stubHelper = $this->getStubStrict('sfErrorNotifierMessageHelper', array(
+    $stubHelper = $this->getStubStrict('fpErrorNotifierMessageHelper', array(
       'formatSummary' => array('foo' => 'bar'),
       'formatSubject' => 'Foo Subject'));
     
     $notifier = $this->getStubStrict(
-      'sfErrorNotifier', array('helper' => $stubHelper), array(), '', false);
-    sfErrorNotifier::setInstance($notifier);
+      'fpErrorNotifier', array('helper' => $stubHelper), array(), '', false);
+    fpErrorNotifier::setInstance($notifier);
     
-    $message = new sfErrorNotifierMessage('foo');
+    $message = new fpErrorNotifierMessage('foo');
     
     $this->assertAttributeEquals(
       array('Summary' => array('foo' => 'bar')), '_data', $message);
@@ -48,7 +48,7 @@ class sfErrorNotifierMessageTestCase extends sfBasePhpunitTestCase
    * 
    * @depends testConstruct
    */
-  public function testRender(sfErrorNotifierMessage $message)
+  public function testRender(fpErrorNotifierMessage $message)
   {
     $this->assertEquals($message->subject(), $message->render());
   }
@@ -57,7 +57,7 @@ class sfErrorNotifierMessageTestCase extends sfBasePhpunitTestCase
    * 
    * @depends testConstruct
    */
-  public function testAddSection(sfErrorNotifierMessage $message)
+  public function testAddSection(fpErrorNotifierMessage $message)
   {
     $message->addSection('Test', array('bar' => 'foo'));
     
@@ -73,7 +73,7 @@ class sfErrorNotifierMessageTestCase extends sfBasePhpunitTestCase
   /**
    * @depends testAddSection
    */
-  public function testGetIterator(sfErrorNotifierMessage $message)
+  public function testGetIterator(fpErrorNotifierMessage $message)
   {
     $this->assertType('IteratorAggregate', $message);
     

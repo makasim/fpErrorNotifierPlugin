@@ -2,12 +2,12 @@
 
 /** 
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage driver 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierDriverFile extends sfBaseErrorNotifierDriver
+class fpErrorNotifierDriverFile extends fpBaseErrorNotifierDriver
 {
   /**
    * 
@@ -24,15 +24,16 @@ class sfErrorNotifierDriverFile extends sfBaseErrorNotifierDriver
   
   /**
    * 
-   * @param sfBaseErrorNotifierMessage $message
+   * @param fpBaseErrorNotifierMessage $message
    */
-  public function notify(sfBaseErrorNotifierMessage $message)
+  public function notify(fpBaseErrorNotifierMessage $message)
   {    
     $path = $this->getOption('path');
     file_exists($path) && unlink($path);
-    
+
     $data = "
       Content-type: {$message->format()}
+      Subject: {$message->subject()}
       
       {$message}";
     

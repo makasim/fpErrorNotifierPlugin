@@ -7,5 +7,5 @@ foreach ($config as $name => $value) {
   sfConfig::set("sf_notify_{$name}", $value);  
 }
 
-sfErrorNotifier::setInstance(new sfErrorNotifier($this->getEventDispatcher()));
-sfErrorNotifier::getInstance()->handler()->initialize();
+fpErrorNotifier::setInstance(new fpErrorNotifier($this->getEventDispatcher()));
+fpErrorNotifier::getInstance()->handler()->initialize();

@@ -2,33 +2,33 @@
 
 /**
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage test 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
+class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
 {
   protected $notifierBackup;
   
   protected function _start()
   {
-    $this->notifierBackup = sfErrorNotifier::getInstance();
+    $this->notifierBackup = fpErrorNotifier::getInstance();
     
-    $notifier = new sfErrorNotifier(new sfEventDispatcher());
-    sfErrorNotifier::setInstance($notifier);
+    $notifier = new fpErrorNotifier(new sfEventDispatcher());
+    fpErrorNotifier::setInstance($notifier);
   }
   
   protected function _end()
   {
-    sfErrorNotifier::setInstance($this->notifierBackup);
+    fpErrorNotifier::setInstance($this->notifierBackup);
   }
   
   public function testFormatException()
   {
     $exception = new Exception('Foo Message', 10);
     
-    $helper = new sfErrorNotifierMessageHelper();
+    $helper = new fpErrorNotifierMessageHelper();
     
     $exceptionData = $helper->formatException($exception);
 
@@ -46,7 +46,7 @@ class sfErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
   {
     sfConfig::set('sf_environment', 'foo_env');
     
-    $helper = new sfErrorNotifierMessageHelper();
+    $helper = new fpErrorNotifierMessageHelper();
     
     $summaryData = $helper->formatSummary('FooTitle');
     
@@ -69,10 +69,10 @@ class sfErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
       'getRequest' => $stubRequest));
     
     $notifier = $this->getStubStrict(
-      'sfErrorNotifier', array('context' => $stubContext), array(), '', false);
-    sfErrorNotifier::setInstance($notifier);
+      'fpErrorNotifier', array('context' => $stubContext), array(), '', false);
+    fpErrorNotifier::setInstance($notifier);
     
-    $helper = new sfErrorNotifierMessageHelper();
+    $helper = new fpErrorNotifierMessageHelper();
     
     $serverData = $helper->formatServer();
     
@@ -89,12 +89,12 @@ class sfErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     $stubContext = $this->getStubStrict('sfContext', array('getRequest' => $stubRequest));
     
     $notifier = $this->getStubStrict(
-      'sfErrorNotifier', array('context' => $stubContext), array(), '', false);
-    sfErrorNotifier::setInstance($notifier);
+      'fpErrorNotifier', array('context' => $stubContext), array(), '', false);
+    fpErrorNotifier::setInstance($notifier);
     
     sfConfig::set('sf_environment', 'foo_env');
     
-    $helper = new sfErrorNotifierMessageHelper();
+    $helper = new fpErrorNotifierMessageHelper();
     
     $subject = $helper->formatSubject('FooSubject');
     
@@ -108,7 +108,7 @@ class sfErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
    */
   public function testFormatTitle($title, $expectedTitle)
   {
-    $helper = new sfErrorNotifierMessageHelper();
+    $helper = new fpErrorNotifierMessageHelper();
     
     $actualTitle = $helper->formatTitle($title);
     

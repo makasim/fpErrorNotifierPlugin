@@ -2,18 +2,18 @@
 
 /** 
  *
- * @package    sfErrorNotifier
+ * @package    fpErrorNotifier
  * @subpackage driver 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class sfErrorNotifierMailSymfony extends sfBaseErrorNotifierDriverMail
+class fpErrorNotifierMailSymfony extends fpBaseErrorNotifierDriverMail
 {
   /**
    * (non-PHPdoc)
-   * @see plugins/sfErrorNotifier2Plugin/lib/driver/sfBaseErrorNotifierDriver#notify($message)
+   * @see plugins/fpErrorNotifierPlugin/lib/driver/fpBaseErrorNotifierDriver#notify($message)
    */
-  public function notify(sfBaseErrorNotifierMessage $message)
+  public function notify(fpBaseErrorNotifierMessage $message)
   {
     if (!sfContext::hasInstance()) return;
     
