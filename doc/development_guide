@@ -1,0 +1,193 @@
+{{toc}}
+
+h1. Requirements
+
+* "Symfony":http://www.symfony-project.org 1.2.x - 1.4.x
+
+h1. Installation
+
+# download:
+## pear package    
+<pre>
+  php symfony plugin:install sfErrorNotifier2Plugin  
+</pre>
+## svn tag 
+<pre>
+  svn checkout http://svn.symfony-project.com/plugins/sfErrorNotifier2Plugin/tags/sfErrorNotifier2Plugin-1.0.0
+</pre>
+## dev version:
+<pre>
+  svn checkout http://svn.symfony-project.com/plugins/sfErrorNotifier2Plugin/trunk
+</pre>
+# enable it in ProjectConfiguration:
+<pre>
+  class ProjectConfiguration extends sfProjectConfiguration
+  {
+    public function setup()
+    {
+      $this->enablePlugins('sfErrorNotifier2Plugin');
+    }
+  }
+</pre>
+
+h1. Overview
+
+It caught all kind of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
+It is very useful on production servers. You know about an error in a moment it has happen. 
+The mail will contain a lot of useful information like description stack trace, module\action, dump of $_SERVER and $_SESSION variables and so on.
+
+Another good point of the plugin that it was made as set of components: message, driver. 
+So it is very easy to extend and replace any of its part with your own implementation.
+
+
+h1. Features
+
+h2. The notify.yml config
+
+After you setup the plugin it starts to work. By default it logs the last error into a file in the log dir.
+To change this behavior you need to create _notify.yml_ in project or app config folder.
+
+So let's say I copy _notify.yml_ from plugin's config dir to _SF_ROOT_DIR/config/notify.yml_
+
+_notify.yml_
+<pre>
+prod:
+  enabled:           true
+
+all:
+  enabled:           false
+  
+  driver:
+    class:           sfErrorNotifierDriverFile
+    options:        
+      path:          '%SF_LOG_DIR%/last-error.html'
+      
+#  driver:
+#    class:           sfErrorNotifierDriverNativeMail
+#    options:
+#      to:            developer1@example.com,developer2@example.com
+#      from:          mail-from@example.com
+  
+  message:
+    class:          sfErrorNotifierMessageHtml
+</pre>
+
+As you see we have:
+
+* the plugin enabled only for production environment  
+* we store an error to a file with path _SF_LOG_DIR/last-error.html_
+* the error message is rendered as html
+
+h2. Drivers
+
+h3. PHP Mail function
+
+You can send a error mail using standart php _mail()_ function. 
+Below the configuration as you see you can set from mail and as many recipients as you want separating them by comma.
+
+_notify.yml_
+<pre>
+  driver:
+    class:           sfErrorNotifierDriverNativeMail
+    options:
+      to:            first.developer@example.com,second.developer@example.com
+      from:          noreplay@your-project.com
+</pre>
+
+h3. Symfony mailer
+
+You can use SWIFT mailer. Let's we have to send error mail through the gmail account.
+
+_factories.yml_
+<pre>
+  mailer:
+    class: sfMailer
+    param:
+      logging:           %SF_LOGGING_ENABLED%
+      charset:           %SF_CHARSET%
+      delivery_strategy: realtime
+      transport:
+        class: Swift_SmtpTransport
+        param:
+          host:       smtp.gmail.com
+          port:       587
+          encryption: tls
+          username:   your-account@gmail.com
+          password:   'password'
+</pre>
+
+_notify.yml_
+<pre>
+  driver:
+    class:           sfErrorNotifierMailSymfony
+    options:
+      to:            first.developer@example.com,second.developer@example.com
+      from:          noreplay@your-project.com
+</pre>
+
+h3. Log file
+
+To log last error in the file:
+
+_notify.yml_
+<pre>
+  driver:
+    class:           sfErrorNotifierDriverFile
+    options:        
+      path:          '%SF_LOG_DIR%/last-error.html'
+</pre>
+
+h2. Messages
+
+h3. Formats
+
+For rendering messages as *html* set to _notify.yml_ next option:
+
+_notify.yml_
+<pre>
+  message:
+    class:          sfErrorNotifierMessageHtml
+</pre>
+
+For rendering messages as *text* set to _notify.yml_ next option:
+
+<pre>
+  message:
+    class:          sfErrorNotifierMessageText
+</pre>
+
+h3. Customizing 
+
+There is ability to send custom messages with your own information. Please look at the example for more info:
+
+<pre>
+   // create a message instance using factory method.
+   $text = 'the service has finish with error';
+   $data = array(
+     'service' => array(
+       'message' => 'given parameters are invalid',
+       'class' => 'customer',
+       'method' => 'create',
+       'parameters' => var_export($_SERVER, true)),
+     'authentication' => array(
+       'api_code' => 'client api code',
+       'api_key' => 'api key'));
+
+   // create a message using factory and send email through a driver defined in notify.yml
+   $message = sfBaseErrorNotifierMessage::get($text, $data);
+   sfErrorNotifier::notify($message);
+
+   // create message instance manualy:
+   $message = new sfErrorNotifierMessageText($text, $data);
+   
+
+   $driver = new sfErrorNotifierDriverMailNative(array(
+     'to' => 'first.developer@example.com',
+     'frp,' => 'noreplay@yout-project.com'));
+
+   $driver->notify($message);
+</pre>
+
+h3. Example
+
+attachment:last-error.html

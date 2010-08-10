@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.6" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+  <name>sfErrorNotifier2Plugin</name>
+  <channel>plugins.symfony-project.org</channel>
+  <summary>
+    It is a refactored version of sfErrorNotifierPlugin plugin. It caught all kind of errors like: exceptions, fatal errors, notices, memory limits and so on. Also it was made as set of components message, driver, decorator to provide main functionality and easy way to change everything you want.
+  </summary>
+  <description>-</description>
+	<lead>
+	  <name>Maksim Kotlyar</name>
+	  <user>maksim_ka</user>
+	  <email>mkotlar@ukr.net</email>
+	  <active>yes</active>
+  </lead>
+  <date>2010-08-04</date>
+  <time>13:13:00</time>
+  <version>
+    <release>1.0.1</release>
+    <api>1.2.0</api>
+  </version>
+  <stability>
+    <release>stable</release>
+    <api>stable</api>
+  </stability>
+  <license uri="http://www.symfony-project.org/license">MIT license</license>
+  <notes>-</notes>
+  <contents>
+    <dir name="/">
+      <dir name="config">
+        <file role="data" name="notify.yml" />
+        <file role="data" name="sfErrorNotifier2PluginConfiguration.class.php" />
+      </dir>
+      <dir name="lib">
+        <dir name="driver">
+          <file role="data" name="sfBaseErrorNotifierDriver.php" />
+          <file role="data" name="sfBaseErrorNotifierDriverMail.php" />
+          <file role="data" name="sfErrorNotifierDriverFile.php" />
+          <file role="data" name="sfErrorNotifierDriverMailNative.php" />
+          <file role="data" name="sfErrorNotifierDriverMailSymfony.php" />
+        </dir>      
+        <dir name="message">
+          <file role="data" name="sfBaseErrorNotifierMessage.php" />
+          <file role="data" name="sfErrorNotifierMessageHtml.php" />
+          <file role="data" name="sfErrorNotifierMessageText.php" />
+        </dir>
+        <file role="data" name="sfErrorNotifier.php" />
+        <file role="data" name="sfErrorNotifierHandler.php" />
+        <file role="data" name="sfErrorNotifierNullContext.php" />
+      </dir>
+		  <file role="data" name="LICENSE" />
+		  <file role="data" name="README" />
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php><min>5.2.4</min></php>
+      <pearinstaller><min>1.4.1</min></pearinstaller>
+      <package>
+				<name>symfony</name>
+				<channel>pear.symfony-project.com</channel>
+				<min>1.0.0</min>
+				<max>1.4.40</max>
+      </package>
+    </required>
+  </dependencies>
+  <phprelease />
+  <changelog>
+    <release>
+      <version>
+        <release>1.0.1</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-08-03</date>
+      <license>MIT</license>
+      <notes>
+        * fix bugs.
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.0.0</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-07-30</date>
+      <license>MIT</license>
+      <notes>
+        * init version
+        * bug fixes
+      </notes>
+    </release>
+  </changelog>
+</package>

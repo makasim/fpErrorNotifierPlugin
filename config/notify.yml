@@ -1,0 +1,64 @@
+prod:
+
+all:
+  handler:
+    class:                   sfErrorNotifierHandler
+    options:
+      error_reporting:       '<?php E_ALL | E_STRICT ?>'     
+        
+  message:
+    class:                   sfErrorNotifierMessage
+    
+  helper: 
+    class:                   sfErrorNotifierMessageHelper
+    
+  decorator:
+    class:                   sfErrorNotifierDecoratorHtml
+  
+  driver: 
+    class:                   sfErrorNotifierDriverNull
+    options:                 {}
+#  
+# EXAMPLES OF DRIVER CONFIGURATION
+#
+# FILE DRIVER
+#
+#  driver:
+#    class:                  sfErrorNotifierDriverFile
+#    options:        
+#      path:                 '%SF_LOG_DIR%/last-error.html'
+# 
+# OR MAIL NATIVE DRIVER
+#
+#  driver:
+#    class:                  sfErrorNotifierDriverMailNative
+#    options:
+#      to:                   developer1@example.com,developer2@example.com
+#      from:                 mail-from@example.com
+#  
+#
+#  EXAMPLE OF IGNORE HANDLER
+#
+#  handler:
+#    class:                   sfErrorNotifierHandlerIgnore
+#    options:        
+#      error_reporting:       '<?php E_ALL | E_STRICT ?>'
+#      ignore_errors:
+#        <?php echo E_ERROR ?>:             false
+#        <?php echo E_WARNING ?>:           false
+#        <?php echo E_PARSE ?>:             false
+#        <?php echo E_NOTICE ?>:            true
+#        <?php echo E_CORE_ERROR ?>:        false
+#        <?php echo E_CORE_WARNING ?>:      false
+#        <?php echo E_COMPILE_ERROR ?>:     false
+#        <?php echo E_COMPILE_WARNING ?>:   false
+#        <?php echo E_USER_ERROR ?>:        true
+#        <?php echo E_USER_WARNING ?>:      true
+#        <?php echo E_USER_NOTICE ?>:       true
+#        <?php echo E_STRICT ?>:            true
+#        <?php echo E_RECOVERABLE_ERROR ?>: true
+#        <?php echo E_DEPRECATED ?>:        true
+#        <?php echo E_USER_DEPRECATED ?>:   true
+#        <?php echo E_ALL ?>:               true
+#      ignore_exceptions:     [FooException]
+#      log_ignored:           true
