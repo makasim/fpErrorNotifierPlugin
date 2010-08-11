@@ -47,7 +47,7 @@ class fpErrorNotifierHandler
     
     $dispather = $this->notifier()->dispather();
     $dispather->connect('application.throw_exception', array($this, 'handleEvent'));
-    $dispather->connect('controller.page_not_found', array($this, 'handleEvent'));
+    //$dispather->connect('controller.page_not_found', array($this, 'handleEvent'));
   }
   
   /**
