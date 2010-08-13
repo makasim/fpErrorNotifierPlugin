@@ -3,19 +3,37 @@
   <name>fpErrorNotifierPlugin</name>
   <channel>plugins.symfony-project.org</channel>
   <summary>
-    It is a refactored version of fpErrorNotifierPlugin plugin. It caught all kind of errors like: exceptions, fatal errors, notices, memory limits and so on. Also it was made as set of components message, driver, decorator to provide main functionality and easy way to change everything you want.
+    Allows to catch all kind of exceptions\errors (including fatal and parse) and store them to file or send via email
   </summary>
-  <description>-</description>
+  <description>
+The goal of the plugin to easy catch all kind of errors\exceptions.
+
+    * exception
+    * fatal errors
+    * parse errors
+    * memory limit errors
+    * warnings
+    * notices
+
+The plugin is made in OOP style, has modular structure so you can easy change everything you want:
+
+    * storage of reports(write to file or send mail)
+    * report info
+    * report view (html or simple text)
+    * error handler (catch all errors or ignore some)
+
+To guaranty the plugin works as it expected I covered code by tests. You can easy run them using sfPhpunitPlugin symfony plugin.
+  </description>
 	<lead>
 	  <name>Maksim Kotlyar</name>
 	  <user>maksim_ka</user>
 	  <email>mkotlar@ukr.net</email>
 	  <active>yes</active>
   </lead>
-  <date>2010-08-04</date>
+  <date>2010-08-13</date>
   <time>13:13:00</time>
   <version>
-    <release>1.0.1</release>
+    <release>1.0.0</release>
     <api>1.2.0</api>
   </version>
   <stability>
@@ -27,25 +45,60 @@
   <contents>
     <dir name="/">
       <dir name="config">
+        <file role="data" name="config.php" />
         <file role="data" name="notify.yml" />
         <file role="data" name="fpErrorNotifierPluginConfiguration.class.php" />
       </dir>
       <dir name="lib">
+        <dir name="decorator">
+          <file role="data" name="fpBaseErrorNotifierDecorator.php" />
+          <file role="data" name="fpErrorNotifierDecoratorHtml.php" />
+          <file role="data" name="fpErrorNotifierDecoratorText.php" />
+        </dir>
         <dir name="driver">
+          <dir name="mail">
+            <file role="data" name="fpBaseErrorNotifierDriverMail.php" />
+            <file role="data" name="fpErrorNotifierDriverMailNative.php" />
+            <file role="data" name="fpErrorNotifierDriverMailSymfony.php" />
+          </dir>
           <file role="data" name="fpBaseErrorNotifierDriver.php" />
-          <file role="data" name="fpBaseErrorNotifierDriverMail.php" />
           <file role="data" name="fpErrorNotifierDriverFile.php" />
-          <file role="data" name="fpErrorNotifierDriverMailNative.php" />
-          <file role="data" name="fpErrorNotifierDriverMailSymfony.php" />
-        </dir>      
+          <file role="data" name="fpErrorNotifierDriverNull.php" />
+        </dir>
+        <dir name="handler">
+          <file role="data" name="fpErrorNotifierHandler.php" />
+          <file role="data" name="fpErrorNotifierHandlerIgnore.php" />
+        </dir>    
         <dir name="message">
           <file role="data" name="fpBaseErrorNotifierMessage.php" />
-          <file role="data" name="fpErrorNotifierMessageHtml.php" />
-          <file role="data" name="fpErrorNotifierMessageText.php" />
+          <file role="data" name="fpErrorNotifierMessage.php" />
+          <file role="data" name="fpErrorNotifierMessageHelper.php" />
+        </dir>
+        <dir name="util">
+          <file role="data" name="fpErrorNotifierNullObject.php" />
         </dir>
         <file role="data" name="fpErrorNotifier.php" />
-        <file role="data" name="fpErrorNotifierHandler.php" />
-        <file role="data" name="fpErrorNotifierNullContext.php" />
+      </dir>
+      <dir name="test">
+	      <dir name="phpunit">
+	        <dir name="decorator">
+	          <file role="data" name="fpBaseErrorNotifierDecoratorTestCase.php" />
+	          <file role="data" name="fpErrorNotifierDecoratorHtmlTestCase.php" />
+	          <file role="data" name="fpErrorNotifierDecoratorTextTestCase.php" />
+	        </dir>
+	        <dir name="fixtures">
+	        </dir>
+	        <dir name="handler">
+	          <file role="data" name="fpErrorNotifierHandlerIgnoreTestCase.php" />
+	          <file role="data" name="fpErrorNotifierHandlerTestCase.php" />
+	        </dir>
+	        <dir name="message">
+            <file role="data" name="fpErrorNotifierMessageHelperTestCase.php" />
+            <file role="data" name="fpErrorNotifierMessageTestCase.php" />	         
+	        </dir>
+          <file role="data" name="fpErrorNotifierRootTestSuite.php" />
+          <file role="data" name="fpErrorNotifierTestCase.php" />        	        
+	      </dir>
       </dir>
 		  <file role="data" name="LICENSE" />
 		  <file role="data" name="README" />
@@ -58,29 +111,13 @@
       <package>
 				<name>symfony</name>
 				<channel>pear.symfony-project.com</channel>
-				<min>1.0.0</min>
+				<min>1.1.0</min>
 				<max>1.4.40</max>
       </package>
     </required>
   </dependencies>
   <phprelease />
   <changelog>
-    <release>
-      <version>
-        <release>1.0.1</release>
-        <api>1.2.0</api>
-      </version>
-      <stability>
-       <release>stable</release>
-       <api>1.2.0</api>
-      </stability>
-      <license uri="http://www.symfony-project.com/license">MIT license</license>
-      <date>2010-08-03</date>
-      <license>MIT</license>
-      <notes>
-        * fix bugs.
-      </notes>
-    </release>
     <release>
       <version>
         <release>1.0.0</release>
@@ -91,11 +128,10 @@
        <api>1.2.0</api>
       </stability>
       <license uri="http://www.symfony-project.com/license">MIT license</license>
-      <date>2010-07-30</date>
+      <date>2010-08-11</date>
       <license>MIT</license>
       <notes>
-        * init version
-        * bug fixes
+        * release first version
       </notes>
     </release>
   </changelog>
