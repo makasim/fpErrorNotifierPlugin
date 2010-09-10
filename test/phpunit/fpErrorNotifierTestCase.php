@@ -88,7 +88,6 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
   public function testHandler()
   {
     $expectedOptions = array(
-      'error_reporting' => 5,
       'ignore_errors' => array('E_ALL' => array('info')),
       'ignore_exceptions' => array('FooException'),
       'log_ignored' => 1);

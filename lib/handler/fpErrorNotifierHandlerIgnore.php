@@ -14,7 +14,6 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
    * @var array
    */
   protected $options = array(
-    'error_reporting' => E_ALL,
     'ignore_errors' => array(),
     'ignore_exceptions' => array(),
     'log_ignored' => true);
@@ -27,27 +26,10 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
    */
   public function handleException(Exception $e)
   {
-    if ($this->ignoreException($e)) return;
-
+    if ($this->ignoreException($e) || $this->ignoreError($e)) return;
+    
     parent::handleException($e);
   }
-
-	/**
-	 * 
-	 * @param string $errno
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param string $errline
-	 * 
-	 * @return void
-	 */
-	public function handleError($errno, $errstr, $errfile, $errline)
-	{ 	  
-    $error = new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    if ($this->ignoreError($error)) return;
- 
-    parent::handleError($errno, $errstr, $errfile, $errline);
-	}
   
   protected function ignoreException(Exception $e)
   {    
@@ -61,10 +43,14 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     return false;
   }
   
-  protected function ignoreError(ErrorException $e)
+  protected function ignoreError(Exception $e)
   {
+    $code = $e->getCode();
+    if (empty($code) && $e instanceof ErrorException) {
+      $code = $e->getSeverity();
+    }
     $ignore_errors = $this->options['ignore_errors'];
-    if (isset($ignore_errors[$e->getSeverity()]) && $ignore_errors[$e->getSeverity()]) {
+    if (isset($ignore_errors[$code]) && $ignore_errors[$code]) {
       $this->logIgnored($e);
       return true;
     }

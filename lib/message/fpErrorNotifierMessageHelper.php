@@ -17,9 +17,13 @@ class fpErrorNotifierMessageHelper
    */
   public function formatException(Exception $e)
   {
+    $code = $e->getCode();
+    if (empty($code) && $e instanceof ErrorException) {
+      $code = $e->getSeverity();
+    }
     return array(
       'class' => get_class($e),
-      'code' => $e->getCode(),
+      'code' =>  $this->getNameOfErrorByCode($code),
       'message' => $e->getMessage(),
       'file' => "{$e->getFile()}, Line: {$e->getLine()}",
       'trace' => $e->getTraceAsString());
@@ -118,4 +122,40 @@ class fpErrorNotifierMessageHelper
   {
     return fpErrorNotifier::getInstance();
   }
+  
+  protected function getNameOfErrorByCode($code)
+  {
+    switch ($code) {
+      case 1:
+        return 'E_ERROR';
+      case 4096:
+        return 'E_RECOVERABLE_ERROR';
+      case 2:
+        return 'E_WARNING';
+      case 4:
+        return 'E_PARSE';
+      case 8:
+        return 'E_NOTICE';
+      case 2048:
+        return 'E_STRICT';
+      case 16:
+        return 'E_CORE_ERROR';
+      case 32:
+        return 'E_CORE_WARNING';
+      case 64:
+        return 'E_COMPILE_ERROR';
+      case 128:
+        return 'E_COMPILE_WARNING';
+      case 256:
+        return 'E_USER_ERROR';
+      case 512:
+        return 'E_USER_WARNING';
+      case 1024:
+        return 'E_USER_NOTICE';
+      case 6143:
+        return 'E_ALL';
+    }
+    return empty($code)?'NONE':$code;
+  }
+  
 }

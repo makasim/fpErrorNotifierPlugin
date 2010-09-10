@@ -13,8 +13,7 @@ class fpErrorNotifierHandler
    * 
    * @var array
    */
-  protected $options = array(
-    'error_reporting' => E_ALL);
+  protected $options = array();
   
   /**
    * 
@@ -39,15 +38,16 @@ class fpErrorNotifierHandler
    */
   public function initialize()
   {
+    // Prevent blocking of error reporting, becuse of @ - error-control operator.
+    if (0 == error_reporting()) @error_reporting(-2);
     $this->memoryReserv = str_repeat('x', 1024 * 500);
     
-    set_error_handler(array($this, 'handleError'), (int) $this->options['error_reporting']);
+    set_error_handler(array($this, 'errorHandler'), E_ALL | E_STRICT);
     register_shutdown_function(array($this, 'handleFatalError'));
     set_exception_handler(array($this, 'handleException'));
     
     $dispather = $this->notifier()->dispather();
     $dispather->connect('application.throw_exception', array($this, 'handleEvent'));
-    //$dispather->connect('controller.page_not_found', array($this, 'handleEvent'));
   }
   
   /**
@@ -75,6 +75,24 @@ class fpErrorNotifierHandler
     
     $this->notifier()->driver()->notify($message);
   }
+  
+  /**
+   * 
+   * @param string $errno
+   * @param string $errstr
+   * @param string $errfile
+   * @param string $errline
+   * @param array $errcontext
+   * 
+   * @return ErrorException
+   */
+  public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+  {
+    // Set becvause of @ error-control operator.
+    if (0 == error_reporting()) return;
+    $this->handleError($errno, $errstr, $errfile, $errline);
+  }
+  
 
 	/**
 	 * 
@@ -83,13 +101,14 @@ class fpErrorNotifierHandler
 	 * @param string $errfile
 	 * @param string $errline
 	 * 
-	 * @return void
+	 * @return ErrorException
 	 */
 	public function handleError($errno, $errstr, $errfile, $errline)
-	{ 	  
+	{
     $error = new ErrorException($errstr, 0, $errno, $errfile, $errline);
     
 	  $this->handleException($error);
+	  return $error;
 	}
 
   /**
@@ -99,11 +118,16 @@ class fpErrorNotifierHandler
   public function handleFatalError()
   {    
     $error = error_get_last();
-    if (!$error) return;    
-    
-    $this->freeMemory();
+    if (empty($error) || 
+        empty($error['type']) || 
+        !in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR))) return;
 
-    @$this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
+    $this->freeMemory();
+    $error = $this->handleError(@$error['type'], @$error['message'], @$error['file'], @$error['line']);
+    
+    $sfE = new sfException();
+    $sfE->setWrappedException($error);
+    $sfE->printStackTrace();
   }
 	
   /**

@@ -2,9 +2,7 @@ prod:
 
 all:
   handler:
-    class:                   fpErrorNotifierHandler
-    options:
-      error_reporting:       '<?php E_ALL | E_STRICT ?>'     
+    class:                   fpErrorNotifierHandler  
         
   message:
     class:                   fpErrorNotifierMessage
@@ -41,8 +39,7 @@ all:
 #
 #  handler:
 #    class:                   fpErrorNotifierHandlerIgnore
-#    options:        
-#      error_reporting:       '<?php E_ALL | E_STRICT ?>'
+#    options:
 #      ignore_errors:
 #        <?php echo E_ERROR ?>:             false
 #        <?php echo E_WARNING ?>:           false

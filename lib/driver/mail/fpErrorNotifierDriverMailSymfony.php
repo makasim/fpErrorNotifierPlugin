@@ -1,5 +1,7 @@
 <?php
 
+require_once 'fpBaseErrorNotifierDriverMail.php';
+
 /** 
  *
  * @package    fpErrorNotifier
@@ -15,9 +17,7 @@ class fpErrorNotifierMailSymfony extends fpBaseErrorNotifierDriverMail
    */
   public function notify(fpBaseErrorNotifierMessage $message)
   {
-    if (!sfContext::hasInstance()) return;
-    
-    $context = sfContext::getInstance();
+    if ($context = fpErrorNotifier::getInstance()->context()) return;
     
     $swiftMessage = new Swift_Message();
     $swiftMessage

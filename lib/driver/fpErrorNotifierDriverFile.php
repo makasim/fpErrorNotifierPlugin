@@ -1,5 +1,7 @@
 <?php
 
+require_once 'fpBaseErrorNotifierDriver.php';
+
 /** 
  *
  * @package    fpErrorNotifier
