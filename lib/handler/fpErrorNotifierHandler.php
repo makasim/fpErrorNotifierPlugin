@@ -42,9 +42,11 @@ class fpErrorNotifierHandler
     if (0 == error_reporting()) @error_reporting(-2);
     $this->memoryReserv = str_repeat('x', 1024 * 500);
     
-    set_error_handler(array($this, 'errorHandler'), E_ALL | E_STRICT);
-    register_shutdown_function(array($this, 'handleFatalError'));
+    // Register error handler it will process most of erros but not all
+    set_error_handler(array($this, 'errorHandler'), -1);
     set_exception_handler(array($this, 'handleException'));
+    // Register shutdown handler it will process other not proced errors 
+    register_shutdown_function(array($this, 'handleFatalError'));
     
     $dispather = $this->notifier()->dispather();
     $dispather->connect('application.throw_exception', array($this, 'handleEvent'));
@@ -74,6 +76,7 @@ class fpErrorNotifierHandler
     $message->addSection('Server', $this->notifier()->helper()->formatServer());
     
     $this->notifier()->driver()->notify($message);
+    echo $e . "\n";
   }
   
   /**
