@@ -9,4 +9,10 @@ class fpErrorNotifierRootTestSuite extends sfBasePhpunitTestSuite
 	{
 	  sfConfig::set('sf_plugin_test_dir', dirname(__FILE__));
 	}
+	
+	public function testTest()
+	{
+	  
+	}
+	
 }
