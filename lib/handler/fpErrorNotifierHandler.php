@@ -45,6 +45,7 @@ class fpErrorNotifierHandler
     // Register error handler it will process most of erros but not all
     set_error_handler(array($this, 'errorHandler'), -1);
     set_exception_handler(array($this, 'handleException'));
+    restore_exception_handler();
     // Register shutdown handler it will process other not proced errors 
     register_shutdown_function(array($this, 'handleFatalError'));
     
@@ -76,7 +77,6 @@ class fpErrorNotifierHandler
     $message->addSection('Server', $this->notifier()->helper()->formatServer());
     
     $this->notifier()->driver()->notify($message);
-    echo $e . "\n";
   }
   
   /**
