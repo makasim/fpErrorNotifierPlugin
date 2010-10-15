@@ -11,16 +11,19 @@ require_once 'util/fpErrorNotifierNullObject.php';
 class fpErrorNotifier
 {
   /**
-   * 
    * @var fpErrorNotifier
    */
   protected static $instance;
   
   /**
-   * 
    * @var sfEventDispatcher
    */
   protected $dispather;
+  
+  /**
+   * @var fpErrorNotifierHandler
+   */
+  protected $handler;
   
   /**
    * 
@@ -104,10 +107,13 @@ class fpErrorNotifier
    */
   public function handler()
   {
-    $options = sfConfig::get('sf_notify_handler');
-    $class = $options['class'];
-    $this->_include($class, 'handler');
-    return new $class($options['options']); 
+    if (empty($this->handler)) {
+      $options = sfConfig::get('sf_notify_handler');
+      $class = $options['class'];
+      $this->_include($class, 'handler');
+      $this->handler = new $class($options['options']);
+    }
+    return $this->handler;
   }
   
   /**
@@ -128,7 +134,7 @@ class fpErrorNotifier
    */
   public function context()
   {
-    if (!class_exists('sfContext') || sfContext::hasInstance()) {
+    if (!class_exists('sfContext') || !sfContext::hasInstance()) {
       return new fpErrorNotifierNullObject();
     }
     return sfContext::getInstance();

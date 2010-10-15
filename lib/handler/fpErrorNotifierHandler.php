@@ -1,6 +1,20 @@
 <?php
 
 /**
+ * Unwind the error handler stack until we're back at the built-in error handler.
+ */
+function unset_error_handler() {
+  while (set_error_handler(create_function('$errno,$errstr', 'return false;'))) {
+    // Unset the error handler we just set.
+    restore_error_handler();
+    // Unset the previous error handler.
+    restore_error_handler();
+  }
+  // Restore the built-in error handler.
+  restore_error_handler();
+}
+
+/**
  *
  * @package    fpErrorNotifier
  * @subpackage handler 
@@ -21,6 +35,8 @@ class fpErrorNotifierHandler
    */
   protected $memoryReserv = '';
   
+  protected $specificErrors = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR); 
+  
   /**
    * 
    * @param array $options
@@ -38,6 +54,11 @@ class fpErrorNotifierHandler
    */
   public function initialize()
   {
+    $configs = sfConfig::get('sf_notify_driver');
+    if (empty($configs['class']) || (isset($configs['class']) && 'fpErrorNotifierDriverNull' == $configs['class'])) {
+      unset_error_handler();
+      return false;
+    }
     // Prevent blocking of error reporting, becuse of @ - error-control operator.
     if (0 == error_reporting()) @error_reporting(-2);
     $this->memoryReserv = str_repeat('x', 1024 * 500);
@@ -51,6 +72,7 @@ class fpErrorNotifierHandler
     
     $dispather = $this->notifier()->dispather();
     $dispather->connect('application.throw_exception', array($this, 'handleEvent'));
+    return true;
   }
   
   /**
@@ -119,13 +141,14 @@ class fpErrorNotifierHandler
    * @return void
    */
   public function handleFatalError()
-  {    
+  {
     $error = error_get_last();
     if (empty($error) || 
         empty($error['type']) || 
-        !in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR))) return;
+        !in_array($error['type'], $this->specificErrors)) return;
 
     $this->freeMemory();
+    
     $error = $this->handleError(@$error['type'], @$error['message'], @$error['file'], @$error['line']);
     
     $sfE = new sfException();
@@ -139,7 +162,7 @@ class fpErrorNotifierHandler
    */
 	protected function freeMemory()
 	{
-	  $this->memoryReserv = '';
+	  unset($this->memoryReserv);
 	}
 	
 	/**

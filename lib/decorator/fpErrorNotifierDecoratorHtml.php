@@ -26,7 +26,7 @@ class fpErrorNotifierDecoratorHtml extends fpBaseErrorNotifierDecorator
    */
   public function render()
   {
-    return '<div style="font-family: Verdana, Arial;">'.parent::render().'</div>';
+    return '<html><body style="font-family: Verdana, Arial;">'.parent::render().'</body></html>';
   }
   
   /**
@@ -89,7 +89,7 @@ class fpErrorNotifierDecoratorHtml extends fpBaseErrorNotifierDecorator
    */
   protected function _prepareValue($value)
   {
-    $return = "<pre style='margin: 0px 0px 10px 0px; display: block; color: black; font-family: Verdana; border: 1px solid #cccccc; padding: 5px; font-size: 15px; line-height: 13px;'>";
+    $return = "<pre style='margin: 0px 0px 10px 0px; display: block; color: black; font-family: Verdana; border: 1px solid #cccccc; padding: 5px; font-size: 15px;'>";
     $return .= $this->notifier()->helper()->formatValue($value);
     $return .= '</pre>';
     

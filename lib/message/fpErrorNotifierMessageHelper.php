@@ -37,10 +37,21 @@ class fpErrorNotifierMessageHelper
    */
   public function formatSummary($title)
   {
+    $context = $this->notifier()->context();
+    if (empty($_SERVER['HTTP_HOST'])) {
+      $uri = implode(' ', $_SERVER['argv']);
+    } else {
+      $uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    }
+    
     return array(
       'subject' => $title,
+      'uri' => $uri,
       'environment' => sfConfig::get('sf_environment', 'undefined'),
-      'generated at' => date('H:i:s j F Y'));
+      'module' => $context->getModuleName(),
+      'action' => $context->getActionName(),
+      'generated at' => date('H:i:s j F Y')
+    );
   }
   
   /**
@@ -49,12 +60,7 @@ class fpErrorNotifierMessageHelper
    */
   public function formatServer()
   {
-    $context = $this->notifier()->context();
-    
     return array(
-      'module' => $context->getModuleName(),
-      'action' => $context->getActionName(),
-      'uri' => $context->getRequest()->getUri(),
       'server' => $this->dump($_SERVER),
       'session' => $this->dump(isset($_SESSION) ? $_SESSION : null));
   }
@@ -65,10 +71,9 @@ class fpErrorNotifierMessageHelper
    */
   public function formatSubject($title)
   {
-    $uri = $this->notifier()->context()->getRequest()->getUri();
     $env = sfConfig::get('sf_environment', 'undefined');
     
-    return "Notification: {$uri} - {$env} - {$title}";
+    return "Notification: {$env} - {$title}";
   }
   
   /**

@@ -50,7 +50,7 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
       $code = $e->getSeverity();
     }
     $ignore_errors = $this->options['ignore_errors'];
-    if (isset($ignore_errors[$code]) && $ignore_errors[$code]) {
+    if (!empty($ignore_errors[$code])) {
       $this->logIgnored($e);
       return true;
     }
@@ -66,4 +66,16 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
       'fpErrorNotifierPlugin: Ignored exception `'.get_class($e).'`. Message `'.$e->getMessage().
       '`. File `'.$e->getFile().'`. Line `'.$e->getLine().'`'); 
   }
+  
+  /**
+   * 
+   * 
+   * @param int $code
+   * @param bool $status
+   */
+  public function setIgnore($code, $status)
+  {
+    $this->options['ignore_errors'][$code] = $status;
+  }
+  
 }

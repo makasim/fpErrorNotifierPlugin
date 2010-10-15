@@ -46,13 +46,21 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
   {
     sfConfig::set('sf_environment', 'foo_env');
     
+    $stubContext = $this->getStubStrict('sfContext', array(
+      'getModuleName' => 'FooModule',
+      'getActionName' => 'BarAction'));
+    
+    $notifier = $this->getStubStrict(
+      'fpErrorNotifier', array('context' => $stubContext), array(), '', false);
+    fpErrorNotifier::setInstance($notifier);
+    
     $helper = new fpErrorNotifierMessageHelper();
     
     $summaryData = $helper->formatSummary('FooTitle');
     
     $this->assertType('array', $summaryData);
     
-    $expectedKeys =  array('subject', 'environment', 'generated at');
+    $expectedKeys =  array('subject', 'uri', 'environment', 'module', 'action', 'generated at');
     $this->assertEquals($expectedKeys, array_keys($summaryData));
     
     $this->assertEquals('FooTitle', $summaryData['subject']);
@@ -61,16 +69,7 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
   
   public function testFormatServer()
   {
-    $stubRequest = $this->getStubStrict(
-      'sfWebRequest', array('getUri' => 'www.notify.com'), array(), '', false);
-    $stubContext = $this->getStubStrict('sfContext', array(
-      'getModuleName' => 'FooModule',
-      'getActionName' => 'BarAction',
-      'getRequest' => $stubRequest));
     
-    $notifier = $this->getStubStrict(
-      'fpErrorNotifier', array('context' => $stubContext), array(), '', false);
-    fpErrorNotifier::setInstance($notifier);
     
     $helper = new fpErrorNotifierMessageHelper();
     
@@ -78,20 +77,12 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     
     $this->assertType('array', $serverData);
     
-    $expectedKeys =  array('module', 'action', 'uri', 'server', 'session');
+    $expectedKeys =  array('server', 'session');
     $this->assertEquals($expectedKeys, array_keys($serverData));
   }
   
   public function testFormatSubject()
   {
-    $stubRequest = $this->getStubStrict(
-      'sfWebRequest', array('getUri' => 'www.notify.com'), array(), '', false);
-    $stubContext = $this->getStubStrict('sfContext', array('getRequest' => $stubRequest));
-    
-    $notifier = $this->getStubStrict(
-      'fpErrorNotifier', array('context' => $stubContext), array(), '', false);
-    fpErrorNotifier::setInstance($notifier);
-    
     sfConfig::set('sf_environment', 'foo_env');
     
     $helper = new fpErrorNotifierMessageHelper();
@@ -99,7 +90,7 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     $subject = $helper->formatSubject('FooSubject');
     
     $this->assertType('string', $subject);
-    $this->assertEquals("Notification: www.notify.com - foo_env - FooSubject", $subject);
+    $this->assertEquals("Notification: foo_env - FooSubject", $subject);
   }
   
   /**
