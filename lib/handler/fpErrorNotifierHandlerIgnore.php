@@ -14,9 +14,31 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
    * @var array
    */
   protected $options = array(
+    'ignore_@' => true,
     'ignore_errors' => array(),
     'ignore_exceptions' => array(),
     'log_ignored' => true);
+  
+  
+  /**
+   * 
+   * @return void
+   */
+  public function initialize()
+  { 
+    // Prevent blocking of error reporting, becuse of @ - error-control operator.
+    if ($this->options['ignore_@'] && 0 == error_reporting()) @error_reporting(-2);
+    
+    return parent::initialize();
+  }
+  
+  public function handleError($errno, $errstr, $errfile, $errline)
+  {
+    // Set becvause of @ error-control operator.
+    if ($this->options['ignore_@'] && 0 == error_reporting()) return;
+    
+    return parent::handleError($errno, $errstr, $errfile, $errline);
+  }
   
   /**
    * 
@@ -50,7 +72,7 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
       $code = $e->getSeverity();
     }
     $ignore_errors = $this->options['ignore_errors'];
-    if (!empty($ignore_errors[$code])) {
+    if (in_array($code, $ignore_errors)) {
       $this->logIgnored($e);
       return true;
     }

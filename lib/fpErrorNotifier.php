@@ -1,7 +1,5 @@
 <?php
 
-require_once 'util/fpErrorNotifierNullObject.php';
-
 /**
  *
  * @package    fpErrorNotifier
@@ -55,7 +53,7 @@ class fpErrorNotifier
   {
     $options = sfConfig::get('sf_notify_decorator');
     $class = $options['class'];
-    $this->_include($class, 'decorator');
+
     return new $class($message);  
   }
 
@@ -67,11 +65,6 @@ class fpErrorNotifier
   {
     $options = sfConfig::get('sf_notify_driver');
     $class = $options['class'];
-    if (false !== strpos($class, 'Mail')) {
-      $this->_include($class, 'driver/mail');
-    } else {
-      $this->_include($class, 'driver');
-    }
     
     return new $class($options['options']); 
   }
@@ -86,7 +79,7 @@ class fpErrorNotifier
   {
     $options = sfConfig::get('sf_notify_message');
     $class = $options['class'];
-    $this->_include($class, 'message');
+
     return new $class($title); 
   }
   
@@ -110,8 +103,8 @@ class fpErrorNotifier
     if (empty($this->handler)) {
       $options = sfConfig::get('sf_notify_handler');
       $class = $options['class'];
-      $this->_include($class, 'handler');
-      $this->handler = new $class($options['options']);
+
+      $this->handler = new $class($this->dispather(), $options['options']);
     }
     return $this->handler;
   }
@@ -124,7 +117,7 @@ class fpErrorNotifier
   {
     $options = sfConfig::get('sf_notify_helper');
     $class = $options['class'];
-    $this->_include($class, 'message');
+
     return new $class;
   }
   
@@ -137,15 +130,9 @@ class fpErrorNotifier
     if (!class_exists('sfContext') || !sfContext::hasInstance()) {
       return new fpErrorNotifierNullObject();
     }
+    
     return sfContext::getInstance();
   }
-
-  private function _include($fileName, $folder)
-  {
-    if ('Mock_' != substr($fileName, 0, 5)) {
-      require_once "{$folder}/{$fileName}.php";
-    }
-  } 
   
   /**
    * 

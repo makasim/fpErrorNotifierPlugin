@@ -2,16 +2,20 @@ prod:
 
 all:
   handler:
-    class:                   fpErrorNotifierHandler  
+    class:                   fpErrorNotifierHandlerIgnore
+    options:                 {ignore_@: true}
         
   message:
     class:                   fpErrorNotifierMessage
+    options:                 {}
     
   helper: 
     class:                   fpErrorNotifierMessageHelper
+    options:                 {}
     
   decorator:
     class:                   fpErrorNotifierDecoratorHtml
+    options:                 {}
   
   driver: 
     class:                   fpErrorNotifierDriverNull
@@ -40,22 +44,7 @@ all:
 #  handler:
 #    class:                   fpErrorNotifierHandlerIgnore
 #    options:
-#      ignore_errors:
-#        <?php echo E_ERROR ?>:             false
-#        <?php echo E_WARNING ?>:           false
-#        <?php echo E_PARSE ?>:             false
-#        <?php echo E_NOTICE ?>:            true
-#        <?php echo E_CORE_ERROR ?>:        false
-#        <?php echo E_CORE_WARNING ?>:      false
-#        <?php echo E_COMPILE_ERROR ?>:     false
-#        <?php echo E_COMPILE_WARNING ?>:   false
-#        <?php echo E_USER_ERROR ?>:        true
-#        <?php echo E_USER_WARNING ?>:      true
-#        <?php echo E_USER_NOTICE ?>:       true
-#        <?php echo E_STRICT ?>:            true
-#        <?php echo E_RECOVERABLE_ERROR ?>: true
-#        <?php echo E_DEPRECATED ?>:        true
-#        <?php echo E_USER_DEPRECATED ?>:   true
-#        <?php echo E_ALL ?>:               true
+#      ignore_@:              false
+#      ignore_errors:         [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
 #      ignore_exceptions:     [FooException]
 #      log_ignored:           true
