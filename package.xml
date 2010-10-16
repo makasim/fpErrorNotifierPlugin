@@ -22,7 +22,7 @@ Which are easy to changes or extend (in most cases just by modifing notify.yml)
   <date>2010-10-17</date>
   <time>01:23:00</time>
   <version>
-    <release>1.0.1</release>
+    <release>1.0.2</release>
     <api>1.2.0</api>
   </version>
   <stability>
@@ -110,7 +110,7 @@ Which are easy to changes or extend (in most cases just by modifing notify.yml)
   <changelog>
     <release>
       <version>
-        <release>1.0.0</release>
+        <release>1.0.2</release>
         <api>1.2.0</api>
       </version>
       <stability>
