@@ -46,7 +46,7 @@ class fpErrorNotifierHandlerTestCase extends sfBasePhpunitTestCase
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new fpErrorNotifierHandler();
+    $handler = new fpErrorNotifierHandler(new sfEventDispatcher);
     $handler->handleException(new Exception('an exception'));
   }
   
@@ -58,7 +58,7 @@ class fpErrorNotifierHandlerTestCase extends sfBasePhpunitTestCase
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new fpErrorNotifierHandler(array());
+    $handler = new fpErrorNotifierHandler(new sfEventDispatcher, array());
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
   
@@ -70,7 +70,7 @@ class fpErrorNotifierHandlerTestCase extends sfBasePhpunitTestCase
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new fpErrorNotifierHandler(array());
+    $handler = new fpErrorNotifierHandler(new sfEventDispatcher, array());
     $notifier->dispather()
       ->connect('application.throw_exception', array($handler, 'handleEvent'));
   
@@ -86,7 +86,7 @@ class fpErrorNotifierHandlerTestCase extends sfBasePhpunitTestCase
       ->method('notify')
       ->with($this->equalTo($notifier->decoratedMessage('foo')));
     
-    $handler = new fpErrorNotifierHandler(array());
+    $handler = new fpErrorNotifierHandler(new sfEventDispatcher, array());
     $notifier->dispather()
       ->connect('controller.page_not_found', array($handler, 'handleEvent'));
   

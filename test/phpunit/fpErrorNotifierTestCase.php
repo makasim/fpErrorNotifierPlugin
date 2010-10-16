@@ -92,7 +92,7 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
       'ignore_exceptions' => array('FooException'),
       'log_ignored' => 1);
     $mock = $this->getMockForAbstractClass(
-      'fpErrorNotifierHandler', array($expectedOptions));
+      'fpErrorNotifierHandler', array(new sfEventDispatcher, $expectedOptions));
 
     sfConfig::set('sf_notify_handler', array(
       'class' => get_class($mock),

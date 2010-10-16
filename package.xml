@@ -6,34 +6,23 @@
     Allows to catch all kind of exceptions\errors (including fatal and parse) and store them to file or send via email
   </summary>
   <description>
-The goal of the plugin to easy catch all kind of errors\exceptions.
+It caught all kind of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
+It is very useful on production servers. You know about an error in a moment it has happen not when an engry customer call you.
+The mail will contain a lot of useful information like description stack trace, module\action, dump of $_SERVER and $_SESSION variables and so on.
 
-    * exception
-    * fatal errors
-    * parse errors
-    * memory limit errors
-    * warnings
-    * notices
-
-The plugin is made in OOP style, has modular structure so you can easy change everything you want:
-
-    * storage of reports(write to file or send mail)
-    * report info
-    * report view (html or simple text)
-    * error handler (catch all errors or ignore some)
-
-To guaranty the plugin works as it expected I covered code by tests. You can easy run them using sfPhpunitPlugin symfony plugin.
+Another good point of the plugin that it was made as set of components: message, driver, handler, decorator.
+Which are easy to changes or extend (in most cases just by modifing notify.yml)
   </description>
-	<lead>
-	  <name>Maksim Kotlyar</name>
-	  <user>maksim_ka</user>
-	  <email>mkotlar@ukr.net</email>
-	  <active>yes</active>
+  <lead>
+    <name>Maksim Kotlyar</name>
+    <user>maksim_ka</user>
+    <email>mkotlar@ukr.net</email>
+    <active>yes</active>
   </lead>
-  <date>2010-08-13</date>
-  <time>13:13:00</time>
+  <date>2010-10-17</date>
+  <time>01:23:00</time>
   <version>
-    <release>1.0.0</release>
+    <release>1.0.1</release>
     <api>1.2.0</api>
   </version>
   <stability>
@@ -45,6 +34,7 @@ To guaranty the plugin works as it expected I covered code by tests. You can eas
   <contents>
     <dir name="/">
       <dir name="config">
+        <file role="data" name="include.php" />
         <file role="data" name="config.php" />
         <file role="data" name="notify.yml" />
         <file role="data" name="fpErrorNotifierPluginConfiguration.class.php" />
@@ -80,28 +70,28 @@ To guaranty the plugin works as it expected I covered code by tests. You can eas
         <file role="data" name="fpErrorNotifier.php" />
       </dir>
       <dir name="test">
-	      <dir name="phpunit">
-	        <dir name="decorator">
-	          <file role="data" name="fpBaseErrorNotifierDecoratorTestCase.php" />
-	          <file role="data" name="fpErrorNotifierDecoratorHtmlTestCase.php" />
-	          <file role="data" name="fpErrorNotifierDecoratorTextTestCase.php" />
-	        </dir>
-	        <dir name="fixtures">
-	        </dir>
-	        <dir name="handler">
-	          <file role="data" name="fpErrorNotifierHandlerIgnoreTestCase.php" />
-	          <file role="data" name="fpErrorNotifierHandlerTestCase.php" />
-	        </dir>
-	        <dir name="message">
+        <dir name="phpunit">
+          <dir name="decorator">
+            <file role="data" name="fpBaseErrorNotifierDecoratorTestCase.php" />
+            <file role="data" name="fpErrorNotifierDecoratorHtmlTestCase.php" />
+            <file role="data" name="fpErrorNotifierDecoratorTextTestCase.php" />
+          </dir>
+          <dir name="fixtures">
+          </dir>
+          <dir name="handler">
+            <file role="data" name="fpErrorNotifierHandlerIgnoreTestCase.php" />
+            <file role="data" name="fpErrorNotifierHandlerTestCase.php" />
+          </dir>
+          <dir name="message">
             <file role="data" name="fpErrorNotifierMessageHelperTestCase.php" />
-            <file role="data" name="fpErrorNotifierMessageTestCase.php" />	         
-	        </dir>
+            <file role="data" name="fpErrorNotifierMessageTestCase.php" />
+          </dir>
           <file role="data" name="fpErrorNotifierRootTestSuite.php" />
-          <file role="data" name="fpErrorNotifierTestCase.php" />        	        
-	      </dir>
+          <file role="data" name="fpErrorNotifierTestCase.php" />
+        </dir>
       </dir>
-		  <file role="data" name="LICENSE" />
-		  <file role="data" name="README" />
+      <file role="data" name="LICENSE" />
+      <file role="data" name="README" />
     </dir>
   </contents>
   <dependencies>
@@ -109,15 +99,34 @@ To guaranty the plugin works as it expected I covered code by tests. You can eas
       <php><min>5.2.4</min></php>
       <pearinstaller><min>1.4.1</min></pearinstaller>
       <package>
-				<name>symfony</name>
-				<channel>pear.symfony-project.com</channel>
-				<min>1.1.0</min>
-				<max>1.4.40</max>
+        <name>symfony</name>
+        <channel>pear.symfony-project.com</channel>
+        <min>1.1.0</min>
+        <max>1.4.40</max>
       </package>
     </required>
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <version>
+        <release>1.0.0</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-10-17</date>
+      <license>MIT</license>
+      <notes>
+        * enable built-in error handler(now the notices displayed when DriverNull used) Thanks 66Ton99.
+        * abilty to ignore or not errors under @ php operator. (Thanks 66Ton99)
+        * added event that allow to add custom info to the message (Thansks smile)
+        * all plugin includes staticaly. prevent autoloading errors.
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.0</release>

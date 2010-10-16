@@ -61,7 +61,7 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       ->expects($this->never())
       ->method('info');
     
-    $handler = new fpErrorNotifierHandlerIgnore(array());
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher, array());
     $handler->handleException(new Exception('an exception'));
   }
   
@@ -77,7 +77,7 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       ->expects($this->once())
       ->method('info');
     
-    $handler = new fpErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher(), array(
       'ignore_exceptions' => array('Exception'),
       'log_ignored' => true));
     
@@ -96,7 +96,7 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       ->expects($this->never())
       ->method('info');
     
-    $handler = new fpErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher, array(
       'ignore_exceptions' => array('Exception'),
       'log_ignored' => false));
     
@@ -115,7 +115,7 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       ->expects($this->never())
       ->method('info');
     
-    $handler = new fpErrorNotifierHandlerIgnore(array());
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher, array());
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
   
@@ -131,8 +131,8 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       ->expects($this->never())
       ->method('info');
     
-    $handler = new fpErrorNotifierHandlerIgnore(array(
-      'ignore_errors' => array(E_WARNING => false)));
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher, array(
+      'ignore_errors' => array()));
     
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
@@ -149,8 +149,8 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       ->expects($this->once())
       ->method('info');
     
-    $handler = new fpErrorNotifierHandlerIgnore(array(
-      'ignore_errors' => array(E_WARNING => true),
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher, array(
+      'ignore_errors' => array(E_WARNING),
       'log_ignored' => true));
     
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
@@ -168,7 +168,7 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       ->expects($this->never())
       ->method('info');
     
-    $handler = new fpErrorNotifierHandlerIgnore(array(
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher, array(
       'ignore_errors' => array(E_WARNING => true),
       'log_ignored' => false));
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
