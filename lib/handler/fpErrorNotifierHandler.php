@@ -111,13 +111,12 @@ class fpErrorNotifierHandler
    */
   public function handleFatalError()
   {
-    $fatalErrors = array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR);
     $error = error_get_last();
 
     $skipHandling = 
       !$error || 
       !isset($error['type']) || 
-      !in_array($error['type'], $fatalErrors);
+      !in_array($error['type'], fpErrorNotifierErrorCode::getFatals());
     if ($skipHandling) return;
 
     $this->freeMemory();

@@ -3,12 +3,12 @@
 
 ## Overview
 
-It caught all kind of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
-It is very useful on production servers. You know about an error in a moment it has happen not when an engry customer call you.
-The mail will contain a lot of useful information like description stack trace, module\action, dump of _$_SERVER_ and _$_SESSION_ variables and so on.
+It catches all kinds of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
+It is very useful for production servers. You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
+The mail will contain a lot of useful information like description, stack trace, module\action, dump of _$_SERVER_ and _$_SESSION_ variables and so on.
 
-Another good point of the plugin that it was made as set of components: message, driver, handler, decorator.
-Which are easy to changes or extend (in most cases just by modifing _notify.yml_)
+Another good reason to use is that it was made as a set of components: message, driver, handler, decorator.
+These components are easy to changes or extend (in most cases just by modifing _notify.yml_ config)
 
 ## Requirements
 
@@ -45,11 +45,11 @@ Which are easy to changes or extend (in most cases just by modifing _notify.yml_
 
 ## Getting Started
 
-The main useage of the plugin is to send email about every errors that have happend on the server (including exceptions, notice, fatal and so on).
+The general way of useing the plugin is to send emails about each error has happend on the server (including exceptions, notice, fatal and so on).
 Let's look at this example to khow how to do it with this plugin.
 
 
-First we need to install the plugin. It was described elier and is a common symfony plugin installation
+First we need to install the plugin. It was described earlier and it is a common symfony plugin installation
 Second we have to create _notify.yml_ in any of the project config dir (I will store it in _SF_ROOT_DIR/config/notify.yml_) with a next content:
 
 _notify.yml_
@@ -61,7 +61,7 @@ _notify.yml_
           to:                   'manager@example.com,teamleader@example.com,developer@example.com'
           from:                 'noreply@live.example.com'
 
-That's it. Now we have all erros and exception to be caught and send to the development team members.
+That's it. Now we have all errors and exceptions caught and sent to the development team members.
 
 ## Features
 

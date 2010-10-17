@@ -34,12 +34,32 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
 
     $this->assertType('array', $exceptionData);
     
-    $expectedKeys =  array('class', 'code', 'message', 'file', 'trace');
+    $expectedKeys =  array('class', 'code', 'severity', 'message', 'file', 'trace');
     $this->assertEquals($expectedKeys, array_keys($exceptionData));
     
     $this->assertEquals('Exception', $exceptionData['class']);
     $this->assertEquals(10, $exceptionData['code']);
     $this->assertEquals('Foo Message', $exceptionData['message']);
+  }
+  
+  public function testFormatErrorException()
+  {
+    $exception = new ErrorException(
+      'Fatal error', 0, fpErrorNotifierErrorCode::E_USER_ERROR, '/a/file', 10);
+    
+    $helper = new fpErrorNotifierMessageHelper();
+    
+    $exceptionData = $helper->formatException($exception);
+
+    $this->assertType('array', $exceptionData);
+    
+    $expectedKeys =  array('class', 'code', 'severity', 'message', 'file', 'trace');
+    $this->assertEquals($expectedKeys, array_keys($exceptionData));
+    
+    $this->assertEquals('E_USER_ERROR', $exceptionData['class']);
+    $this->assertEquals(0, $exceptionData['code']);
+    $this->assertEquals(fpErrorNotifierErrorCode::E_USER_ERROR, $exceptionData['severity']);
+    $this->assertEquals('Fatal error', $exceptionData['message']);
   }
   
   public function testFormatSummary()
