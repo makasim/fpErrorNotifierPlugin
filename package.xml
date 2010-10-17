@@ -3,15 +3,15 @@
   <name>fpErrorNotifierPlugin</name>
   <channel>plugins.symfony-project.org</channel>
   <summary>
-    Allows to catch all kind of exceptions\errors (including fatal and parse) and store them to file or send via email
+    Allows to catch all kind of exceptions\errors (including fatal and parse) and store them to file or send via email.
   </summary>
   <description>
-It caught all kind of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
-It is very useful on production servers. You know about an error in a moment it has happen not when an engry customer call you.
-The mail will contain a lot of useful information like description stack trace, module\action, dump of $_SERVER and $_SESSION variables and so on.
+It catches all kinds of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
+It is very useful for production servers. You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
+The mail will contain a lot of useful information like description, stack trace, module\action, dump of _$_SERVER_ and _$_SESSION_ variables and so on.
 
-Another good point of the plugin that it was made as set of components: message, driver, handler, decorator.
-Which are easy to changes or extend (in most cases just by modifing notify.yml)
+Another good reason to use is that it was made as a set of components: message, driver, handler, decorator.
+These components are easy to changes or extend (in most cases just by modifing _notify.yml_ config)
   </description>
   <lead>
     <name>Maksim Kotlyar</name>
@@ -19,10 +19,10 @@ Which are easy to changes or extend (in most cases just by modifing notify.yml)
     <email>mkotlar@ukr.net</email>
     <active>yes</active>
   </lead>
-  <date>2010-10-17</date>
-  <time>01:23:00</time>
+  <date>2010-10-18</date>
+  <time>00:11:00</time>
   <version>
-    <release>1.0.2</release>
+    <release>1.0.3</release>
     <api>1.2.0</api>
   </version>
   <stability>
@@ -66,6 +66,7 @@ Which are easy to changes or extend (in most cases just by modifing notify.yml)
         </dir>
         <dir name="util">
           <file role="data" name="fpErrorNotifierNullObject.php" />
+          <file role="data" name="fpErrorNotifierErrorCode.php" />
         </dir>
         <file role="data" name="fpErrorNotifier.php" />
       </dir>
@@ -85,6 +86,9 @@ Which are easy to changes or extend (in most cases just by modifing notify.yml)
           <dir name="message">
             <file role="data" name="fpErrorNotifierMessageHelperTestCase.php" />
             <file role="data" name="fpErrorNotifierMessageTestCase.php" />
+          </dir>
+          <dir name="util">
+            <file role="data" name="fpErrorNotifierErrorCodeTestCase.php" />
           </dir>
           <file role="data" name="fpErrorNotifierRootTestSuite.php" />
           <file role="data" name="fpErrorNotifierTestCase.php" />
@@ -108,6 +112,25 @@ Which are easy to changes or extend (in most cases just by modifing notify.yml)
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <version>
+        <release>1.0.3</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-10-18</date>
+      <license>MIT</license>
+      <notes>
+        * enable built-in error handler(now the notices displayed when DriverNull used) Thanks 66Ton99.
+        * abilty to ignore or not errors under @ php operator. (Thanks 66Ton99)
+        * added event that allow to add custom info to the message (Thansks smile)
+        * all plugin includes staticaly. prevent autoloading errors.
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.2</release>
