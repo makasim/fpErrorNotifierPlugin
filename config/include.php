@@ -29,3 +29,4 @@ require_once $pluginLibDir . '/decorator/fpErrorNotifierDecoratorText.php';
 
 //util
 require_once $pluginLibDir . '/util/fpErrorNotifierNullObject.php';
+require_once $pluginLibDir . '/util/fpErrorNotifierErrorCode.php';
