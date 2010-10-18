@@ -256,3 +256,7 @@ So to run test you need this plugin first. Then you can run this command to exec
 ## Feedback
 
 I am very welcome for any comments suggestions, bug fixes, implementations and so on. You can create a ticket at my [github repository](http://github.com/makasim/fpErrorNotifierPlugin/issues) or make a fork and do your changes.
+
+## TODO 
+
+* The more flexible ignore handler.
