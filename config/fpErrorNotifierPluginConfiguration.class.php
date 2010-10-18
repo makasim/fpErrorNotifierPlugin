@@ -28,10 +28,13 @@ class fpErrorNotifierPluginConfiguration extends sfPluginConfiguration
    */
   protected function notifier()
   {
-    fpErrorNotifier::setInstance(
-      new fpErrorNotifier($this->configuration->getEventDispatcher()));
+    if (!$instance = fpErrorNotifier::getInstance()) {
+      $instance = new fpErrorNotifier($this->configuration->getEventDispatcher());
       
-    return fpErrorNotifier::getInstance();
+      fpErrorNotifier::setInstance($instance);
+    }
+    
+    return $instance;
   }
   
   /**

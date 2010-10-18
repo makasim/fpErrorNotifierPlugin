@@ -28,6 +28,12 @@ class fpErrorNotifierHandler
   
   /**
    * 
+   * @var bool
+   */
+  protected $isInit = false;
+  
+  /**
+   * 
    * @param array $options
    * 
    * @return void
@@ -44,6 +50,7 @@ class fpErrorNotifierHandler
    */
   public function initialize()
   {
+    if ($this->isInit) return; 
     $configs = sfConfig::get('sf_notify_driver');
     
     $this->memoryReserv = str_repeat('x', 1024 * 500);
@@ -57,7 +64,8 @@ class fpErrorNotifierHandler
         
     $dispather = $this->notifier()->dispather();
     $dispather->connect('application.throw_exception', array($this, 'handleEvent'));
-    return true;
+    
+    $this->isInit = true;
   }
   
   /**

@@ -125,10 +125,8 @@ These components are easy to changes or extend (in most cases just by modifing _
       <date>2010-10-18</date>
       <license>MIT</license>
       <notes>
-        * enable built-in error handler(now the notices displayed when DriverNull used) Thanks 66Ton99.
-        * abilty to ignore or not errors under @ php operator. (Thanks 66Ton99)
-        * added event that allow to add custom info to the message (Thansks smile)
-        * all plugin includes staticaly. prevent autoloading errors.
+        * refactor error codes 
+        * clean up README
       </notes>
     </release>
     <release>
