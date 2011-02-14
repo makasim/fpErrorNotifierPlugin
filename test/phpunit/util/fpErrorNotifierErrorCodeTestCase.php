@@ -32,7 +32,7 @@ class fpErrorNotifierErrorCodeTestCase extends sfBasePhpunitTestCase
   {
     $errors = fpErrorNotifierErrorCode::getAll();
     
-    $this->assertType('array', $errors);
+    $this->assertInternalType('array', $errors);
     $this->assertEquals(15, count($errors));
     $this->assertContains(fpErrorNotifierErrorCode::E_ERROR, $errors);
   }
@@ -41,7 +41,7 @@ class fpErrorNotifierErrorCodeTestCase extends sfBasePhpunitTestCase
   {
     $errors = fpErrorNotifierErrorCode::getFatals();
     
-    $this->assertType('array', $errors);
+    $this->assertInternalType('array', $errors);
     $this->assertEquals(5, count($errors));
     $this->assertContains(fpErrorNotifierErrorCode::E_CORE_ERROR, $errors);
   }

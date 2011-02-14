@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/include.php';
  * @subpackage config 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
+ * @author     Ton Sharp <forma@66Ton99.org.ua>
  */
 class fpErrorNotifierPluginConfiguration extends sfPluginConfiguration
 {
@@ -17,37 +18,6 @@ class fpErrorNotifierPluginConfiguration extends sfPluginConfiguration
    */
   public function initialize()
   {
-    $this->_initializeConfig();
-
-    $this->notifier()->handler()->initialize();
-  }
-  
-  /**
-   * 
-   * @return fpErrorNotifier
-   */
-  protected function notifier()
-  {
-    if (!$instance = fpErrorNotifier::getInstance()) {
-      $instance = new fpErrorNotifier($this->configuration->getEventDispatcher());
-      
-      fpErrorNotifier::setInstance($instance);
-    }
-    
-    return $instance;
-  }
-  
-  /**
-   * 
-   * @return void
-   */
-  protected function _initializeConfig()
-  {
-    $configFiles = $this->configuration->getConfigPaths('config/notify.yml');
-    $config = sfDefineEnvironmentConfigHandler::getConfiguration($configFiles);
-    
-    foreach ($config as $name => $value) {
-      sfConfig::set("sf_notify_{$name}", $value);  
-    }
+    fpErrorNotifier::initialize($this->configuration);
   }
 }

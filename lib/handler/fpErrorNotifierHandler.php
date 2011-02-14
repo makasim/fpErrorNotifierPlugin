@@ -6,9 +6,11 @@
  * @subpackage handler 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
+ * @author     Ton Sharp <forma@66Ton99@gmail.com>
  */
 class fpErrorNotifierHandler
-{ 
+{
+  
   /**
    * 
    * @var array
@@ -50,7 +52,7 @@ class fpErrorNotifierHandler
    */
   public function initialize()
   {
-    if ($this->isInit) return; 
+    if ($this->isInit || 'fpErrorNotifierDriverNull' == get_class($this->notifier()->driver())) return; 
     $configs = sfConfig::get('sf_notify_driver');
     
     $this->memoryReserv = str_repeat('x', 1024 * 500);
@@ -59,7 +61,8 @@ class fpErrorNotifierHandler
     set_error_handler(array($this, 'handleError'));
     // Register shutdown handler it will process other not proced errors 
     register_shutdown_function(array($this, 'handleFatalError'));
-    
+    // It will not do nothing if fpErrorNotifierDriverNull did set. Correctly error will not display.
+    // See first line of method 
     set_exception_handler(array($this, 'handleException'));
         
     $dispather = $this->notifier()->dispather();
@@ -80,6 +83,9 @@ class fpErrorNotifierHandler
   }
   
   /**
+   * Exception handler method
+   * 
+   * @todo Implement display exception mechanism
    * 
    * @param Exception $e
    * 
@@ -87,6 +93,7 @@ class fpErrorNotifierHandler
    */
   public function handleException(Exception $e)
   {
+    
     $message = $this->notifier()->decoratedMessage($e->getMessage());
     $message->addSection('Exception', $this->notifier()->helper()->formatException($e));
     $message->addSection('Server', $this->notifier()->helper()->formatServer());
@@ -96,7 +103,6 @@ class fpErrorNotifierHandler
     $this->notifier()->driver()->notify($message);
   }
   
-
   /**
    * 
    * @param string $errno
@@ -126,14 +132,18 @@ class fpErrorNotifierHandler
       !isset($error['type']) || 
       !in_array($error['type'], fpErrorNotifierErrorCode::getFatals());
     if ($skipHandling) return;
-
     $this->freeMemory();
     
     @$this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
     
-//    $sfE = new sfException();
-//    $sfE->setWrappedException($error);
-//    $sfE->printStackTrace();
+    // FIXME It will not work always in "dew" mode 
+    // because of "printStackTrace()" depends on autoloader which don't work properly I don't know why
+    // But in "prod" mode it works fine
+    // TODO need to create own safe printStackTrace()
+    if (!empty($_SERVER['SERVER_NAME']) && !empty($error['file'])) {
+      $sfE = sfException::createFromException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
+      $sfE->printStackTrace();
+    }
   }
   
   /**

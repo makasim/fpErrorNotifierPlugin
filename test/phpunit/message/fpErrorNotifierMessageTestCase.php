@@ -75,7 +75,7 @@ class fpErrorNotifierMessageTestCase extends sfBasePhpunitTestCase
    */
   public function testGetIterator(fpErrorNotifierMessage $message)
   {
-    $this->assertType('IteratorAggregate', $message);
+    $this->assertInstanceOf('IteratorAggregate', $message);
     
     $iterator = $message->getIterator();
 

@@ -132,7 +132,9 @@ _notify.yml_
           ignore_@:              false
           ignore_errors:         [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
           ignore_exceptions:     [FooException]
+          ignore_known_errors:   true
           log_ignored:           true
+          
 
 ### Drivers
 
