@@ -7,8 +7,10 @@
   </summary>
   <description>
 It catches all kinds of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
-It is very useful for production servers. You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
-The mail will contain a lot of useful information like description, stack trace, module\action, dump of _$_SERVER_ and _$_SESSION_ variables and so on.
+It is very useful for production servers.
+You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
+The mail will contain a lot of useful information like description, stack trace, module\action,
+dump of _$_SERVER_ and _$_SESSION_ variables and so on.
 
 Another good reason to use is that it was made as a set of components: message, driver, handler, decorator.
 These components are easy to changes or extend (in most cases just by modifing _notify.yml_ config)
@@ -19,10 +21,16 @@ These components are easy to changes or extend (in most cases just by modifing _
     <email>mkotlar@ukr.net</email>
     <active>yes</active>
   </lead>
-  <date>2010-10-18</date>
-  <time>00:11:00</time>
+  <developer>
+    <name>Ton Sharp</name>
+    <user>66Ton99</user>
+    <email>66Ton99@gmail.com</email>
+    <active>yes</active>
+  </developer>
+  <date>2011-02-15</date>
+  <time>12:11:00</time>
   <version>
-    <release>1.0.3</release>
+    <release>1.0.4</release>
     <api>1.2.0</api>
   </version>
   <stability>
@@ -95,7 +103,7 @@ These components are easy to changes or extend (in most cases just by modifing _
         </dir>
       </dir>
       <file role="data" name="LICENSE" />
-      <file role="data" name="README" />
+      <file role="data" name="README.markdown" />
     </dir>
   </contents>
   <dependencies>
@@ -112,6 +120,24 @@ These components are easy to changes or extend (in most cases just by modifing _
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <version>
+        <release>1.0.4</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2011-02-15</date>
+      <license>MIT</license>
+      <notes>
+        * Reorganized initialization.
+        * Added error handling in the loop.
+        * Updated tests.
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.3</release>
