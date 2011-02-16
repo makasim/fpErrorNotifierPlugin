@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.6" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.6" version="2.0"
+  xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
   <name>fpErrorNotifierPlugin</name>
   <channel>plugins.symfony-project.org</channel>
   <summary>
     Allows to catch all kind of exceptions\errors (including fatal and parse) and store them to file or send via email.
   </summary>
   <description>
-It catches all kinds of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
-It is very useful for production servers.
-You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
-The mail will contain a lot of useful information like description, stack trace, module\action,
-dump of _$_SERVER_ and _$_SESSION_ variables and so on.
-
-Another good reason to use is that it was made as a set of components: message, driver, handler, decorator.
-These components are easy to changes or extend (in most cases just by modifing _notify.yml_ config)
+    It catches all kinds of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
+    It is very useful for production servers.
+    You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
+    The mail will contain a lot of useful information like description, stack trace, module\action,
+    dump of _$_SERVER_ and _$_SESSION_ variables and so on.
+    
+    Another good reason to use is that it was made as a set of components: message, driver, handler, decorator.
+    These components are easy to changes or extend (in most cases just by modifing _notify.yml_ config)
   </description>
   <lead>
     <name>Maksim Kotlyar</name>
@@ -66,7 +69,7 @@ These components are easy to changes or extend (in most cases just by modifing _
         <dir name="handler">
           <file role="data" name="fpErrorNotifierHandler.php" />
           <file role="data" name="fpErrorNotifierHandlerIgnore.php" />
-        </dir>    
+        </dir>
         <dir name="message">
           <file role="data" name="fpBaseErrorNotifierMessage.php" />
           <file role="data" name="fpErrorNotifierMessage.php" />
@@ -108,8 +111,12 @@ These components are easy to changes or extend (in most cases just by modifing _
   </contents>
   <dependencies>
     <required>
-      <php><min>5.2.4</min></php>
-      <pearinstaller><min>1.4.1</min></pearinstaller>
+      <php>
+        <min>5.2.4</min>
+      </php>
+      <pearinstaller>
+        <min>1.4.1</min>
+      </pearinstaller>
       <package>
         <name>symfony</name>
         <channel>pear.symfony-project.com</channel>
@@ -126,8 +133,8 @@ These components are easy to changes or extend (in most cases just by modifing _
         <api>1.2.0</api>
       </version>
       <stability>
-       <release>stable</release>
-       <api>1.2.0</api>
+        <release>stable</release>
+        <api>1.2.0</api>
       </stability>
       <license uri="http://www.symfony-project.com/license">MIT license</license>
       <date>2011-02-15</date>
@@ -144,8 +151,8 @@ These components are easy to changes or extend (in most cases just by modifing _
         <api>1.2.0</api>
       </version>
       <stability>
-       <release>stable</release>
-       <api>1.2.0</api>
+        <release>stable</release>
+        <api>1.2.0</api>
       </stability>
       <license uri="http://www.symfony-project.com/license">MIT license</license>
       <date>2010-10-18</date>
@@ -161,8 +168,8 @@ These components are easy to changes or extend (in most cases just by modifing _
         <api>1.2.0</api>
       </version>
       <stability>
-       <release>stable</release>
-       <api>1.2.0</api>
+        <release>stable</release>
+        <api>1.2.0</api>
       </stability>
       <license uri="http://www.symfony-project.com/license">MIT license</license>
       <date>2010-10-17</date>
@@ -180,8 +187,8 @@ These components are easy to changes or extend (in most cases just by modifing _
         <api>1.2.0</api>
       </version>
       <stability>
-       <release>stable</release>
-       <api>1.2.0</api>
+        <release>stable</release>
+        <api>1.2.0</api>
       </stability>
       <license uri="http://www.symfony-project.com/license">MIT license</license>
       <date>2010-08-11</date>
