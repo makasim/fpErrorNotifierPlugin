@@ -17,16 +17,14 @@ class fpErrorNotifierMailSymfony extends fpBaseErrorNotifierDriverMail
    */
   public function notify(fpBaseErrorNotifierMessage $message)
   {
-    if ($context = fpErrorNotifier::getInstance()->context()) return;
-    
     $swiftMessage = new Swift_Message();
     $swiftMessage
       ->setTo($this->getOption('to'))
       ->setFrom($this->getOption('from'))
       ->setBody((string) $message)
-      ->setFormat($message->format())
+      ->setContentType($message->format())
       ->setSubject($message->subject());
 
-    @$context->getMailer()->send($swiftMessage);
+    @fpErrorNotifier::getInstance()->context()->getMailer()->send($swiftMessage);
   }
 }
