@@ -3,19 +3,19 @@
 /**
  *
  * @package    fpErrorNotifier
- * 
+ *
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
 class fpErrorNotifier
 {
   /**
-   * 
+   *
    * @var fpErrorNotifier
    */
   protected static $instance;
-  
+
   /**
-   * 
+   *
    * @var sfEventDispatcher
    */
   protected $dispather;
@@ -25,62 +25,61 @@ class fpErrorNotifier
    * @var sfContext
    */
   protected $context;
-  
+
   /**
-   * 
+   *
    * @var fpBaseErrorNotifierDriver
    */
   protected $driver;
-  
+
   /**
-   * 
+   *
    * @var fpErrorNotifierHandler
    */
   protected $handler;
-  
+
   /**
-   * 
+   *
    * @var fpErrorNotifierMessageHelper
    */
   protected $helper;
-  
+
   /**
-   * 
+   *
    * @var fpBaseErrorNotifierMessage
    */
   protected $message;
-  
+
   /**
-   * 
+   *
    * @var fpBaseErrorNotifierDecorator
    */
   protected $decorator;
-  
+
   /**
-   * 
+   *
    * @param sfEventDispatcher $dispather
-   * 
+   *
    * @return void
    */
   public function __construct(sfEventDispatcher $dispather)
   {
     $this->dispather = $dispather;
-    $this->context = $context;
   }
-  
+
   /**
-   * 
+   *
    * @return sfEventDispatcher
    */
   public function dispather()
   {
     return $this->dispather;
   }
-  
+
   /**
-   * 
+   *
    * @param fpBaseErrorNotifierMessage
-   * 
+   *
    * @return fpBaseErrorNotifierDecorator
    */
   public function decorator(fpBaseErrorNotifierMessage $message)
@@ -95,7 +94,7 @@ class fpErrorNotifier
   }
 
   /**
-   * 
+   *
    * @return fpBaseErrorNotifierDriver
    */
   public function driver()
@@ -105,14 +104,14 @@ class fpErrorNotifier
       $class = $options['class'];
       $this->driver = new $class($options['options']);
     }
-    
-    return $this->driver; 
+
+    return $this->driver;
   }
-  
+
   /**
-   * 
+   *
    * @param string $title
-   * 
+   *
    * @return fpBaseErrorNotifierMessage
    */
   public function message($title)
@@ -125,20 +124,20 @@ class fpErrorNotifier
 
     return clone $this->message;
   }
-  
+
   /**
-   * 
+   *
    * @param string $title
-   * 
+   *
    * @return fpBaseErrorNotifierDecorator
    */
   public function decoratedMessage($title)
   {
     return $this->decorator($this->message($title));
   }
-  
+
   /**
-   * 
+   *
    * @return fpErrorNotifierHandler
    */
   public function handler()
@@ -149,12 +148,12 @@ class fpErrorNotifier
 
       $this->handler = new $class($this->dispather(), $options['options']);
     }
-    
+
     return $this->handler;
   }
-  
+
   /**
-   * 
+   *
    * @return fpErrorNotifierMessageHelper
    */
   public function helper()
@@ -167,7 +166,7 @@ class fpErrorNotifier
 
     return $this->helper;
   }
-  
+
   /**
    * @return sfContext|fpErrorNotifierNullObject
    */
@@ -179,20 +178,20 @@ class fpErrorNotifier
     }
     return $this->context;
   }
-  
+
   /**
-   * 
+   *
    * @return fpErrorNotifier
    */
   public static function getInstance()
   {
     return self::$instance;
   }
-  
+
   /**
-   * 
+   *
    * @param fpErrorNotifier
-   * 
+   *
    * @return fpErrorNotifier
    */
   public static function setInstance(fpErrorNotifier $notifier)
@@ -200,3 +199,4 @@ class fpErrorNotifier
     return self::$instance = $notifier;
   }
 }
+
