@@ -1,0 +1,6 @@
+autoload:
+  nmParserPlugin_lib:
+    name:       fpErrorNotifierPlugin_lib
+    path:       %SF_PLUGINS_DIR%/fpErrorNotifierPlugin/lib
+    recursive:  true
+    exclude:    []

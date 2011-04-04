@@ -19,6 +19,12 @@ class fpErrorNotifier
    * @var sfEventDispatcher
    */
   protected $dispather;
+
+  /**
+   *
+   * @var sfContext
+   */
+  protected $context;
   
   /**
    * 
@@ -59,6 +65,7 @@ class fpErrorNotifier
   public function __construct(sfEventDispatcher $dispather)
   {
     $this->dispather = $dispather;
+    $this->context = $context;
   }
   
   /**
@@ -162,16 +169,15 @@ class fpErrorNotifier
   }
   
   /**
-   * 
    * @return sfContext|fpErrorNotifierNullObject
    */
   public function context()
   {
-    if (!class_exists('sfContext') || !sfContext::hasInstance()) {
-      return new fpErrorNotifierNullObject();
+    if(!$this->context)
+    {
+      $this->context = sfContext::getInstance();
     }
-    
-    return sfContext::getInstance();
+    return $this->context;
   }
   
   /**

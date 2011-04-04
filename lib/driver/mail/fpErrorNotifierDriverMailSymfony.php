@@ -1,7 +1,5 @@
 <?php
 
-require_once 'fpBaseErrorNotifierDriverMail.php';
-
 /** 
  *
  * @package    fpErrorNotifier
@@ -9,7 +7,7 @@ require_once 'fpBaseErrorNotifierDriverMail.php';
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class fpErrorNotifierMailSymfony extends fpBaseErrorNotifierDriverMail
+class fpErrorNotifierDriverMailSymfony extends fpBaseErrorNotifierDriverMail
 {
   /**
    * (non-PHPdoc)
@@ -19,12 +17,12 @@ class fpErrorNotifierMailSymfony extends fpBaseErrorNotifierDriverMail
   {
     $swiftMessage = new Swift_Message();
     $swiftMessage
-      ->setTo($this->getOption('to'))
+      ->setTo(explode(',', $this->getOption('to')))
       ->setFrom($this->getOption('from'))
       ->setBody((string) $message)
       ->setContentType($message->format())
       ->setSubject($message->subject());
 
-    @fpErrorNotifier::getInstance()->context()->getMailer()->send($swiftMessage);
+    fpErrorNotifier::getInstance()->context()->getMailer()->send($swiftMessage);
   }
 }

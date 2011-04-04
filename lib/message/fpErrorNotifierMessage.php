@@ -1,7 +1,5 @@
 <?php
 
-require_once 'fpBaseErrorNotifierMessage.php';
-
 /**
  *
  * @package    fpErrorNotifier
