@@ -9,7 +9,7 @@ require_once 'fpBaseErrorNotifierDriverMail.php';
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
  */
-class fpErrorNotifierMailSymfony extends fpBaseErrorNotifierDriverMail
+class fpErrorNotifierDriverMailSymfony extends fpBaseErrorNotifierDriverMail
 {
   /**
    * (non-PHPdoc)
