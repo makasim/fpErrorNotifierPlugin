@@ -19,10 +19,10 @@ These components are easy to changes or extend (in most cases just by modifing _
     <email>mkotlar@ukr.net</email>
     <active>yes</active>
   </lead>
-  <date>2010-10-18</date>
+  <date>2011-04-05</date>
   <time>00:11:00</time>
   <version>
-    <release>1.0.3</release>
+    <release>1.0.5</release>
     <api>1.2.0</api>
   </version>
   <stability>
@@ -112,6 +112,22 @@ These components are easy to changes or extend (in most cases just by modifing _
   </dependencies>
   <phprelease />
   <changelog>
+    <release>
+      <version>
+        <release>1.0.5</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2011-04-05</date>
+      <license>MIT</license>
+      <notes>
+        * rollback to include. autoload is not working in some cases
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.3</release>
