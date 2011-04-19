@@ -64,6 +64,9 @@ class fpErrorNotifierHandler
         
     $dispather = $this->notifier()->dispather();
     $dispather->connect('application.throw_exception', array($this, 'handleEvent'));
+    $dispather->connect('notify.throw_exception', array($this, 'handleEvent'));
+    $dispather->connect('notify.send_message', array($this, 'handleEventMessage'));
+    
     
     $this->isInit = true;
   }
@@ -91,11 +94,21 @@ class fpErrorNotifierHandler
     $message->addSection('Exception', $this->notifier()->helper()->formatException($e));
     $message->addSection('Server', $this->notifier()->helper()->formatServer());
     
-    $this->dispatcher->notify(new sfEvent($message, 'notify.exception'));
+    $this->dispatcher->notify(new sfEvent($message, 'notify.decorate_exception'));
     
     $this->notifier()->driver()->notify($message);
   }
   
+  public function handleEventMessage(sfEvent $event)
+  {
+    $message = $this->notifier()->decoratedMessage($event->getSubject());
+    $message->addSection('Message Details', $event->getParameters());
+    $message->addSection('Server', $this->notifier()->helper()->formatServer());
+    
+    $this->dispatcher->notify(new sfEvent($message, 'notify.decorate_message'));
+    
+    $this->notifier()->driver()->notify($message);
+  }
 
   /**
    * 

@@ -223,6 +223,18 @@ _notify.yml_
     
     fpErrorNotifier::getInstance()->driver()->notify($message);
     
+But this code creates a hard coded relation between your code and the plugin isn't it? 
+It can be done this way but it is not a good idea. 
+So how can we do it better?
+Below we are sending absolutly the same message using sfEventDispatcher:
+    
+    <?php
+    
+    $dispatcher = sfContext::getInstance()->getEventDispatcher();
+    $event = new sfEvent('A Custom message title', 'notify.send_message', array('Detail 1' => 'Foo', 'Detail 2' => 'Bar'));
+    
+    $dispatcher->notify($event);
+    
 ### Add more info to the error message
 
     <?php 
@@ -233,9 +245,12 @@ _notify.yml_
       $message->addSection('Detailed info', array('Detail 1' => 'Foo', 'Detail 2' => 'Bar'));
     }
     
-    fpErrorNotifier::getInstance()->dispather()->connect('notify.exception', 'addMoreErrorInfo');
+    // notify.decorate_message for adding additional info to custom simple messages
+    fpErrorNotifier::getInstance()->dispather()->connect('notify.decorate_exception', 'addMoreErrorInfo');
     
-    // then whrn an error happend this event would be raised.
+    // then when an error happend this event would be raised and additional info added.
+    
+    
     
 ### Use custom driver
 
