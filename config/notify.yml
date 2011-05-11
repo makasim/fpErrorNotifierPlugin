@@ -46,5 +46,7 @@ all:
 #    options:
 #      ignore_@:                false
 #      ignore_errors:           [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
-#      ignore_exceptions:       [FooException]  
+#      ignore_exceptions:       [FooException]
+#      ignore_duplication:      true
+#      ignore_duplication_time: 3600 # seconds
 #      log_ignored:             true
