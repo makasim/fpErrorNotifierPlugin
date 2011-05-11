@@ -92,6 +92,15 @@ class fpErrorNotifierHandler
   {
     $message = $this->notifier()->decoratedMessage($e->getMessage());
     $message->addSection('Exception', $this->notifier()->helper()->formatException($e));
+    
+    $count = 1;
+    while ($previous = $e->getPrevious()) {
+      $message->addSection("Previous Exception #{$count}", $this->notifier()->helper()->formatException($previous));
+      
+      $e = $previous;
+      $count++; 
+    }
+    
     $message->addSection('Server', $this->notifier()->helper()->formatServer());
     
     $this->dispatcher->notify(new sfEvent($message, 'notify.decorate_exception'));
