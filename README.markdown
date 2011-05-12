@@ -3,12 +3,12 @@
 
 ## Overview
 
-It catches all kinds of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
-It is very useful for production servers. You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
-The mail will contain a lot of useful information like description, stack trace, module\action, dump of _$_SERVER_ and _$_SESSION_ variables and so on.
+The plugin for those people how want to feel confident in your code. 
+If something goes wrong you are the first to be notified about it.
+The email not only contains an error message but a bunch of useful information.
 
-Another good reason to use is that it was made as a set of components: message, driver, handler, decorator.
-These components are easy to changes or extend (in most cases just by modifing _notify.yml_ config)
+It takes control over the system and catches every error: exceptions, fatal errors, notices, memory limit error, php parse errors and so on.
+It easy to customize because the plugin was made as a set of components: _message_, _driver_, _handler_, _decorator_. 
 
 ## Requirements
 
