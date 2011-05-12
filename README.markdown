@@ -129,10 +129,15 @@ _notify.yml_
      handler:
        class:                   fpErrorNotifierHandlerIgnore
          options:
-          ignore_@:              false
-          ignore_errors:         [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
-          ignore_exceptions:     [FooException]
-          log_ignored:           true
+          ignore_@:                false
+          ignore_errors:           [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
+          ignore_exceptions:       [FooException]
+          log_ignored:             true
+          ignore_duplication:      true
+          ignore_duplication_time: 10 # seconds
+
+You can avoid sending duplicated errors for some period of time. Ignore some php errors or exception.
+Also it is possible to get notifications that happend under the '@' command.
 
 ### Drivers
 
