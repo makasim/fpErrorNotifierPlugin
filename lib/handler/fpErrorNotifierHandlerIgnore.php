@@ -17,6 +17,8 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     'ignore_@' => true,
     'ignore_errors' => array(),
     'ignore_exceptions' => array(),
+    'ignore_duplication' => false,
+    'ignore_duplication_time' => 3600,
     'log_ignored' => true);
   
   
@@ -48,7 +50,9 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
    */
   public function handleException(Exception $e)
   {
-    if ($this->ignoreException($e) || $this->ignoreError($e)) return;
+    if ($this->ignoreException($e) || $this->ignoreError($e) || $this->ignoreDuplication($e)) return;
+
+    $this->registerExceptionAsKnown($e);
     
     parent::handleException($e);
   }
@@ -78,6 +82,51 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     }
    
     return false;
+  }
+  
+  /**
+   *
+   * @param Exception $e
+   * 
+   * @return boolean
+   */
+  protected function ignoreDuplication(Exception $e)
+  {
+    if (false == $this->options['ignore_duplication']) return false;
+    
+    $key = md5($e->getMessage().$e->getFile().$e->getLine());
+    if ($this->getExceptionRegister()->has($key)) {
+      $this->logIgnored($e);
+      return true;
+    }
+    
+    return false;
+  }
+  
+  /**
+   *
+   * @param Exception $e 
+   * 
+   * @return void
+   */
+  protected function registerExceptionAsKnown(Exception $e)
+  {
+    if ($this->options['ignore_duplication']) {
+      $key = md5($e->getMessage().$e->getFile().$e->getLine());
+      $this->getExceptionRegister()->set($key, 1, $this->options['ignore_duplication_time']);
+    }
+  }
+  
+  /**
+   * 
+   * @return sfFileCache
+   */
+  protected function getExceptionRegister()
+  {
+    $cacheDir = sfConfig::get('sf_cache_dir') ? sfConfig::get('sf_cache_dir') : sfProjectConfiguration::guessRootDir().'/cache';
+    $cacheDir .= '/fpErrorNotifierPlugin';
+    
+    return new sfFileCache(array('cache_dir' => $cacheDir));
   }
   
   protected function logIgnored(Exception $e)

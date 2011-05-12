@@ -55,9 +55,9 @@ class fpErrorNotifierHandler
     
     $this->memoryReserv = str_repeat('x', 1024 * 500);
     
-    // Register error handler it will process most of erros but not all
+    // Register error handler it will process the most part of erros (but not all)
     set_error_handler(array($this, 'handleError'));
-    // Register shutdown handler it will process other not proced errors 
+    // Register shutdown handler it will process the rest part of errors
     register_shutdown_function(array($this, 'handleFatalError'));
     
     set_exception_handler(array($this, 'handleException'));
@@ -152,10 +152,6 @@ class fpErrorNotifierHandler
     $this->freeMemory();
     
     @$this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
-    
-//    $sfE = new sfException();
-//    $sfE->setWrappedException($error);
-//    $sfE->printStackTrace();
   }
   
   /**
