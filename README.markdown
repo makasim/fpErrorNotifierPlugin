@@ -3,12 +3,12 @@
 
 ## Overview
 
-It catches all kinds of errors like: exceptions, fatal errors, notices, memory limit errors and so on.
-It is very useful for production servers. You will find out about any errors in a moment after it has happened and not when an angry customer calls you.
-The mail will contain a lot of useful information like description, stack trace, module\action, dump of _$_SERVER_ and _$_SESSION_ variables and so on.
+The plugin for those people how want to feel confident in your code. 
+If something goes wrong you are the first to be notified about it.
+The email not only contains an error message but a bunch of useful information.
 
-Another good reason to use is that it was made as a set of components: message, driver, handler, decorator.
-These components are easy to changes or extend (in most cases just by modifing _notify.yml_ config)
+It takes control over the system and catches every error: exceptions, fatal errors, notices, memory limit error, php parse errors and so on.
+It easy to customize because the plugin was made as a set of components: _message_, _driver_, _handler_, _decorator_. 
 
 ## Requirements
 
@@ -129,11 +129,16 @@ _notify.yml_
      handler:
        class:                   fpErrorNotifierHandlerIgnore
          options:
-          ignore_@:              false
-          ignore_errors:         [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
-          ignore_exceptions:     [FooException]
+          ignore_@:                false
+          ignore_errors:           [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
+          ignore_exceptions:       [FooException]
           ignore_known_errors:   true
-          log_ignored:           true
+          log_ignored:             true
+          ignore_duplication:      true
+          ignore_duplication_time: 10 # seconds
+
+You can avoid sending duplicated errors for some period of time. Ignore some php errors or exception.
+Also it is possible to get notifications that happend under the '@' command.
           
 
 ### Drivers
@@ -225,6 +230,18 @@ _notify.yml_
     
     fpErrorNotifier::getInstance()->driver()->notify($message);
     
+But this code creates a hard coded relation between your code and the plugin isn't it? 
+It can be done this way but it is not a good idea. 
+So how can we do it better?
+Below we are sending absolutly the same message using sfEventDispatcher:
+    
+    <?php
+    
+    $dispatcher = sfContext::getInstance()->getEventDispatcher();
+    $event = new sfEvent('A Custom message title', 'notify.send_message', array('Detail 1' => 'Foo', 'Detail 2' => 'Bar'));
+    
+    $dispatcher->notify($event);
+    
 ### Add more info to the error message
 
     <?php 
@@ -235,9 +252,12 @@ _notify.yml_
       $message->addSection('Detailed info', array('Detail 1' => 'Foo', 'Detail 2' => 'Bar'));
     }
     
-    fpErrorNotifier::getInstance()->dispather()->connect('notify.exception', 'addMoreErrorInfo');
+    // notify.decorate_message for adding additional info to custom simple messages
+    fpErrorNotifier::getInstance()->dispather()->connect('notify.decorate_exception', 'addMoreErrorInfo');
     
-    // then whrn an error happend this event would be raised.
+    // then when an error happend this event would be raised and additional info added.
+    
+    
     
 ### Use custom driver
 

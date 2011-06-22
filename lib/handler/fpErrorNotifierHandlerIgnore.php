@@ -11,13 +11,6 @@
 class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
 { 
   /**
-   * List of known errors
-   *
-   * @var array
-   */
-  protected static $errorList = array();
-  
-  /**
    * 
    * @var array
    */
@@ -25,7 +18,8 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     'ignore_@' => true,
     'ignore_errors' => array(),
     'ignore_exceptions' => array(),
-    'ignore_known_errors' => true,
+    'ignore_duplication' => false,
+    'ignore_duplication_time' => 3600,
     'log_ignored' => true);
     
   /**
@@ -48,10 +42,7 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
   {
     // Set becvause of @ error-control operator.
     if ($this->options['ignore_@'] && 0 == error_reporting()) return;
-    if (in_array($errno, $this->options['ignore_errors'])) {
-      $this->logIgnored(new ErrorException($errstr, 0, $errno, $errfile, $errline));      
-      return;
-    }
+    
     return parent::handleError($errno, $errstr, $errfile, $errline);
   }
   
@@ -63,9 +54,21 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
    */
   public function handleException(Exception $e)
   {
-    if ($this->ignoreException($e) || $this->ignoreError($e) || $this->ignoreKnownError($e)) return;
+    if ($this->ignoreException($e) || $this->ignoreError($e) || $this->ignoreDuplication($e)) return;
+
+    $this->registerExceptionAsKnown($e);
+    
     parent::handleException($e);
   }
+  
+  protected function ignoreException(Exception $e)
+  {    
+    foreach ($this->options['ignore_exceptions'] as $ignoreClass) {
+      if ($e instanceof $ignoreClass) {
+        $this->logIgnored($e);
+        return true;
+      }
+    }
     
   /**
    * 
@@ -89,39 +92,50 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
   }
   
   /**
-   * Ignore known error
-   * For example: if some error execute in a loop
    *
    * @param Exception $e
-   *
-   * @return bool
+   * 
+   * @return boolean
    */
-  protected function ignoreKnownError(Exception $e)
+  protected function ignoreDuplication(Exception $e)
   {
-    if (empty($this->options['ignore_known_errors'])) return false;
-    $errorIdentifier = $e->getFile() . $e->getLine() . $e->getCode() . $e->getMessage();
-    if (in_array($errorIdentifier, self::$errorList)) return true;
-    self::$errorList[] = $errorIdentifier;
+    if (false == $this->options['ignore_duplication']) return false;
+    
+    $key = md5($e->getMessage().$e->getFile().$e->getLine());
+    if ($this->getExceptionRegister()->has($key)) {
+      $this->logIgnored($e);
+      return true;
+    }
+    
     return false;
   }
   
-	/**
-   * Clear lisf of known errors
+  /**
    *
+   * @param Exception $e 
+   * 
    * @return void
    */
-  public static function clearErrorList()
+  protected function registerExceptionAsKnown(Exception $e)
   {
-    self::$errorList = array();
+    if ($this->options['ignore_duplication']) {
+      $key = md5($e->getMessage().$e->getFile().$e->getLine());
+      $this->getExceptionRegister()->set($key, 1, $this->options['ignore_duplication_time']);
+    }
   }
   
   /**
    * 
-   *
-   * @param Exception $e
-   *
-   * @return
+   * @return sfFileCache
    */
+  protected function getExceptionRegister()
+  {
+    $cacheDir = sfConfig::get('sf_cache_dir') ? sfConfig::get('sf_cache_dir') : sfProjectConfiguration::guessRootDir().'/cache';
+    $cacheDir .= '/fpErrorNotifierPlugin';
+    
+    return new sfFileCache(array('cache_dir' => $cacheDir));
+  }
+  
   protected function logIgnored(Exception $e)
   {
     if (!$this->options['log_ignored']) return;
@@ -146,7 +160,7 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     }
   }
   
-	/**
+  /**
    * 
    *
    * @param Exception $e
