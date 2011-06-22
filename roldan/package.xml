@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.6" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+  <name>fpErrorNotifierPlugin</name>
+  <channel>plugins.symfony-project.org</channel>
+  <summary>
+    Allows to catch all kind of exceptions\errors send via email.
+  </summary>
+  <description>
+The plugin for those people how want to feel confident in your code. 
+If something goes wrong you are the first to be notified about it.
+The email not only contains an error message but a bunch of useful information.
+
+It takes control over the system and catches every error: exceptions, fatal errors, notices, memory limit error, php parse errors and so on.
+It easy to customize because the plugin was made as a set of components: _message_, _driver_, _handler_, _decorator_. 
+  </description>
+  <lead>
+    <name>Maksim Kotlyar</name>
+    <user>maksim_ka</user>
+    <email>mkotlar@ukr.net</email>
+    <active>yes</active>
+  </lead>
+  <date>2011-05-12</date>
+  <time>14:00:00</time>
+  <version>
+    <release>1.0.7</release>
+    <api>1.2.0</api>
+  </version>
+  <stability>
+    <release>stable</release>
+    <api>stable</api>
+  </stability>
+  <license uri="http://www.symfony-project.org/license">MIT license</license>
+  <notes>-</notes>
+  <contents>
+    <dir name="/">
+      <dir name="config">
+        <file role="data" name="include.php" />
+        <file role="data" name="config.php" />
+        <file role="data" name="notify.yml" />
+        <file role="data" name="fpErrorNotifierPluginConfiguration.class.php" />
+      </dir>
+      <dir name="lib">
+        <dir name="decorator">
+          <file role="data" name="fpBaseErrorNotifierDecorator.php" />
+          <file role="data" name="fpErrorNotifierDecoratorHtml.php" />
+          <file role="data" name="fpErrorNotifierDecoratorText.php" />
+        </dir>
+        <dir name="driver">
+          <dir name="mail">
+            <file role="data" name="fpBaseErrorNotifierDriverMail.php" />
+            <file role="data" name="fpErrorNotifierDriverMailNative.php" />
+            <file role="data" name="fpErrorNotifierDriverMailSymfony.php" />
+          </dir>
+          <file role="data" name="fpBaseErrorNotifierDriver.php" />
+          <file role="data" name="fpErrorNotifierDriverFile.php" />
+          <file role="data" name="fpErrorNotifierDriverNull.php" />
+        </dir>
+        <dir name="handler">
+          <file role="data" name="fpErrorNotifierHandler.php" />
+          <file role="data" name="fpErrorNotifierHandlerIgnore.php" />
+        </dir>    
+        <dir name="message">
+          <file role="data" name="fpBaseErrorNotifierMessage.php" />
+          <file role="data" name="fpErrorNotifierMessage.php" />
+          <file role="data" name="fpErrorNotifierMessageHelper.php" />
+        </dir>
+        <dir name="util">
+          <file role="data" name="fpErrorNotifierNullObject.php" />
+          <file role="data" name="fpErrorNotifierErrorCode.php" />
+        </dir>
+        <file role="data" name="fpErrorNotifier.php" />
+      </dir>
+      <dir name="test">
+        <dir name="phpunit">
+          <dir name="decorator">
+            <file role="data" name="fpBaseErrorNotifierDecoratorTestCase.php" />
+            <file role="data" name="fpErrorNotifierDecoratorHtmlTestCase.php" />
+            <file role="data" name="fpErrorNotifierDecoratorTextTestCase.php" />
+          </dir>
+          <dir name="fixtures">
+          </dir>
+          <dir name="handler">
+            <file role="data" name="fpErrorNotifierHandlerIgnoreTestCase.php" />
+            <file role="data" name="fpErrorNotifierHandlerTestCase.php" />
+          </dir>
+          <dir name="message">
+            <file role="data" name="fpErrorNotifierMessageHelperTestCase.php" />
+            <file role="data" name="fpErrorNotifierMessageTestCase.php" />
+          </dir>
+          <dir name="util">
+            <file role="data" name="fpErrorNotifierErrorCodeTestCase.php" />
+          </dir>
+          <file role="data" name="fpErrorNotifierRootTestSuite.php" />
+          <file role="data" name="fpErrorNotifierTestCase.php" />
+        </dir>
+      </dir>
+      <file role="data" name="LICENSE" />
+      <file role="data" name="README" />
+    </dir>
+  </contents>
+  <dependencies>
+    <required>
+      <php><min>5.2.4</min></php>
+      <pearinstaller><min>1.4.1</min></pearinstaller>
+      <package>
+        <name>symfony</name>
+        <channel>pear.symfony-project.com</channel>
+        <min>1.1.0</min>
+        <max>1.4.40</max>
+      </package>
+    </required>
+  </dependencies>
+  <phprelease />
+  <changelog>
+    <release>
+      <version>
+        <release>1.0.7</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2011-05-12</date>
+      <license>MIT</license>
+      <notes>
+        * provide info on previous exceptions
+        * ignore duplicated errors.
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.0.6</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2011-04-19</date>
+      <license>MIT</license>
+      <notes>
+        * refacotor message decoration. rename event names
+        * add new event to send text messages
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.0.5</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2011-04-05</date>
+      <license>MIT</license>
+      <notes>
+        * rollback to include. autoload is not working in some cases
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.0.3</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-10-18</date>
+      <license>MIT</license>
+      <notes>
+        * refactor error codes 
+        * clean up README
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.0.2</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-10-17</date>
+      <license>MIT</license>
+      <notes>
+        * enable built-in error handler(now the notices displayed when DriverNull used) Thanks 66Ton99.
+        * abilty to ignore or not errors under @ php operator. (Thanks 66Ton99)
+        * added event that allow to add custom info to the message (Thansks smile)
+        * all plugin includes staticaly. prevent autoloading errors.
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.0.0</release>
+        <api>1.2.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>1.2.0</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-08-11</date>
+      <license>MIT</license>
+      <notes>
+        * release first version
+      </notes>
+    </release>
+  </changelog>
+</package>
