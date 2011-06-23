@@ -6,7 +6,7 @@
  * @subpackage handler 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
- * @author     Ton Sharp <forma@66Ton99.org.ua>
+ * @author     Ton Sharp <Forma-PRO@66Ton99.org.ua>
  */
 class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
 { 
@@ -61,15 +61,6 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     parent::handleException($e);
   }
   
-  protected function ignoreException(Exception $e)
-  {    
-    foreach ($this->options['ignore_exceptions'] as $ignoreClass) {
-      if ($e instanceof $ignoreClass) {
-        $this->logIgnored($e);
-        return true;
-      }
-    }
-    
   /**
    * 
    *

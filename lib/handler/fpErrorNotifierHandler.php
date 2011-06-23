@@ -6,7 +6,7 @@
  * @subpackage handler 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
- * @author     Ton Sharp <forma@66Ton99@gmail.com>
+ * @author     Ton Sharp <Forma-PRO@66Ton99@gmail.com>
  */
 class fpErrorNotifierHandler
 {
