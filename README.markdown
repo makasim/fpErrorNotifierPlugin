@@ -132,7 +132,6 @@ _notify.yml_
           ignore_@:                false
           ignore_errors:           [<?php echo E_ERROR ?>, <?php echo E_NOTICE ?>]
           ignore_exceptions:       [FooException]
-          ignore_known_errors:   true
           log_ignored:             true
           ignore_duplication:      true
           ignore_duplication_time: 10 # seconds
@@ -281,4 +280,4 @@ I am very welcome for any comments suggestions, bug fixes, implementations and s
 
 ## TODO 
 
-* The more flexible ignore handler.
+* fpErrorNotifierHandlerIgnore have to more flexible 
