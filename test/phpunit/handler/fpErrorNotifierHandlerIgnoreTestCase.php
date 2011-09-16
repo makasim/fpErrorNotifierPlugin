@@ -135,7 +135,7 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
   
-	/**
+    /**
    * @depends testHandleError
    * @depends testHandleErrorIgnoreSetToFalse
    */
