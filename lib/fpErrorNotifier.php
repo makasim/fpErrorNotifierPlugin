@@ -2,9 +2,10 @@
 
 /**
  *
- * @package    fpErrorNotifier
+ * @package fpErrorNotifier
  * 
- * @author     Maksim Kotlyar <mkotlar@ukr.net>
+ * @author  Maksim Kotlyar <mkotlar@ukr.net>
+ * @author  Ton Sharp <forma@66Ton99.org.ua>
  */
 class fpErrorNotifier
 {
@@ -15,43 +16,36 @@ class fpErrorNotifier
   protected static $instance;
   
   /**
-   * 
    * @var sfEventDispatcher
    */
   protected $dispather;
   
   /**
-   * 
    * @var fpBaseErrorNotifierDriver
    */
   protected $driver;
   
   /**
-   * 
    * @var fpErrorNotifierHandler
    */
   protected $handler;
   
   /**
-   * 
    * @var fpErrorNotifierMessageHelper
    */
   protected $helper;
   
   /**
-   * 
    * @var fpBaseErrorNotifierMessage
    */
   protected $message;
   
   /**
-   * 
    * @var fpBaseErrorNotifierDecorator
    */
   protected $decorator;
   
   /**
-   * 
    * @param sfEventDispatcher $dispather
    * 
    * @return void
@@ -59,6 +53,25 @@ class fpErrorNotifier
   public function __construct(sfEventDispatcher $dispather)
   {
     $this->dispather = $dispather;
+  }
+  
+  /**
+   * @param sfProjectConfiguration $configuration
+   * 
+   * @return fpErrorNotifier
+   */
+  public static function initialize(sfProjectConfiguration $configuration)
+  {
+    if (empty(self::$instance)) {
+      $configFiles = $configuration->getConfigPaths('config/notify.yml');
+      $config = sfDefineEnvironmentConfigHandler::getConfiguration($configFiles);
+      foreach ($config as $name => $value) {
+        sfConfig::set("sf_notify_{$name}", $value);
+      }
+      self::$instance = new self($configuration->getEventDispatcher());
+      self::getInstance()->handler()->initialize();
+    }
+    return self::$instance;
   }
   
   /**

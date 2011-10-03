@@ -38,7 +38,7 @@ class fpErrorNotifierDecoratorTextTestCase extends sfBasePhpunitTestCase
     
     $text = $decorator->render();
     
-    $this->assertType('string', $text);
+    $this->assertInternalType('string', $text);
     
     $this->assertContains('Summary', $text);
     $this->assertContains('Environment', $text);

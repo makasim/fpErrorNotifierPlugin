@@ -47,7 +47,7 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
     
     $driver = $notifier->driver();
     
-    $this->assertType(get_class($mock), $driver);
+    $this->assertInstanceOf(get_class($mock), $driver);
     $this->assertAttributeEquals($expectedOptions, '_options', $driver);
   }
   
@@ -60,7 +60,7 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
     
     $helper = $notifier->helper();
     
-    $this->assertType(get_class($mock), $helper);
+    $this->assertInstanceOf(get_class($mock), $helper);
   }
   
   /**
@@ -76,7 +76,7 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
     
     $message = $notifier->message('title');
     
-    $this->assertType(get_class($mock), $message);
+    $this->assertInstanceOf(get_class($mock), $message);
     
 //    $stub = $this->getStubStrict('fpBaseErrorNotifierMessageHelper', array(
 //      'summarySection' => array('foo' => 'bar'), 
@@ -102,7 +102,7 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
     
     $handler = $notifier->handler();
     
-    $this->assertType(get_class($mock), $handler);
+    $this->assertInstanceOf(get_class($mock), $handler);
     $this->assertAttributeEquals($expectedOptions, 'options', $handler);
   }
   
@@ -117,7 +117,7 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
     $notifier = new fpErrorNotifier(new sfEventDispatcher());
     $decorator = $notifier->decorator($stubMessage);
     
-    $this->assertType(get_class($mock), $decorator);
+    $this->assertInstanceOf(get_class($mock), $decorator);
     $this->assertAttributeEquals($stubMessage, 'message', $decorator);
   }
   
@@ -139,7 +139,7 @@ class fpErrorNotifierTestCase extends sfBasePhpunitTestCase
     
     $decoratedMessage = $notifier->decoratedMessage('Foo Title');
     
-    $this->assertType(get_class($decoratorMock), $decoratedMessage);
-    $this->assertAttributeType(get_class($messageMock), 'message', $decoratedMessage);
+    $this->assertInstanceOf(get_class($decoratorMock), $decoratedMessage);
+    $this->assertAttributeInstanceOf(get_class($messageMock), 'message', $decoratedMessage);
   }
 }

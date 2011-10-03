@@ -32,7 +32,7 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     
     $exceptionData = $helper->formatException($exception);
 
-    $this->assertType('array', $exceptionData);
+    $this->assertInternalType('array', $exceptionData);
     
     $expectedKeys =  array('class', 'code', 'severity', 'message', 'file', 'trace');
     $this->assertEquals($expectedKeys, array_keys($exceptionData));
@@ -51,7 +51,7 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     
     $exceptionData = $helper->formatException($exception);
 
-    $this->assertType('array', $exceptionData);
+    $this->assertInternalType('array', $exceptionData);
     
     $expectedKeys =  array('class', 'code', 'severity', 'message', 'file', 'trace');
     $this->assertEquals($expectedKeys, array_keys($exceptionData));
@@ -78,7 +78,7 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     
     $summaryData = $helper->formatSummary('FooTitle');
     
-    $this->assertType('array', $summaryData);
+    $this->assertInternalType('array', $summaryData);
     
     $expectedKeys =  array('subject', 'uri', 'environment', 'module', 'action', 'generated at');
     $this->assertEquals($expectedKeys, array_keys($summaryData));
@@ -95,7 +95,7 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     
     $serverData = $helper->formatServer();
     
-    $this->assertType('array', $serverData);
+    $this->assertInternalType('array', $serverData);
     
     $expectedKeys =  array('server', 'session');
     $this->assertEquals($expectedKeys, array_keys($serverData));
@@ -109,7 +109,7 @@ class fpErrorNotifierMessageHelperTestCase extends sfBasePhpunitTestCase
     
     $subject = $helper->formatSubject('FooSubject');
     
-    $this->assertType('string', $subject);
+    $this->assertInternalType('string', $subject);
     $this->assertEquals("Notification: foo_env - FooSubject", $subject);
   }
   

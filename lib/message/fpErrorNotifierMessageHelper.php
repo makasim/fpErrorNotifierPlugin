@@ -37,8 +37,11 @@ class fpErrorNotifierMessageHelper
   public function formatSummary($title)
   {
     $context = $this->notifier()->context();
+    $uri = '';
     if (empty($_SERVER['HTTP_HOST'])) {
-      $uri = implode(' ', $_SERVER['argv']);
+      if (!empty($_SERVER['argv'])) {
+        $uri = implode(' ', $_SERVER['argv']);
+      }
     } else {
       $uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }

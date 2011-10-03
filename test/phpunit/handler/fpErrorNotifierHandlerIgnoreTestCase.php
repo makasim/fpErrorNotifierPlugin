@@ -40,7 +40,6 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       'driver' => $mockDriver,
       'dispather' => new sfEventDispatcher(),
       'context' => $stubContext), array(), '', false);
-    
     fpErrorNotifier::setInstance($notifier);
   }
   
@@ -133,6 +132,51 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
     
     $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher, array(
       'ignore_errors' => array()));
+    $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
+  }
+  
+    /**
+   * @depends testHandleError
+   * @depends testHandleErrorIgnoreSetToFalse
+   */
+  public function testSetIgnorePut()
+  {
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
+    $mockDriver
+      ->expects($this->never())
+      ->method('notify');
+      
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger
+      ->expects($this->once())
+      ->method('info');
+    
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher,
+                                                array('log_ignored' => true));
+    $handler->setIgnore(E_WARNING, true);
+    $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
+  }
+  
+  /**
+   * @depends testHandleError
+   * @depends testHandleErrorIgnoreSetToFalse
+   */
+  public function testSetIgnoreRemove()
+  {
+    $mockDriver = fpErrorNotifier::getInstance()->driver();
+    $mockDriver
+      ->expects($this->once())
+      ->method('notify');
+      
+    $mockLogger = fpErrorNotifier::getInstance()->context()->getLogger();
+    $mockLogger
+      ->expects($this->never())
+      ->method('info');
+      
+    $handler = new fpErrorNotifierHandlerIgnore(new sfEventDispatcher,
+                                                array('ignore_errors' => array(E_WARNING => true),
+                                                      'log_ignored' => true));
+    $handler->setIgnore(E_WARNING, false);
     
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
@@ -173,4 +217,7 @@ class fpErrorNotifierHandlerIgnoreTestCase extends sfBasePhpunitTestCase
       'log_ignored' => false));
     $handler->handleError(E_WARNING, 'an error', 'foo.php', 200);
   }
+  
+  
+  
 }

@@ -6,6 +6,7 @@
  * @subpackage handler 
  * 
  * @author     Maksim Kotlyar <mkotlar@ukr.net>
+ * @author     Ton Sharp <Forma-PRO@66Ton99.org.ua>
  */
 class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
 { 
@@ -20,8 +21,7 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     'ignore_duplication' => false,
     'ignore_duplication_time' => 3600,
     'log_ignored' => true);
-  
-  
+    
   /**
    * 
    * @return void
@@ -34,6 +34,10 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     return parent::initialize();
   }
   
+  /**
+   * (non-PHPdoc)
+   * @see fpErrorNotifierHandler::handleError()
+   */
   public function handleError($errno, $errstr, $errfile, $errline)
   {
     // Set becvause of @ error-control operator.
@@ -57,27 +61,21 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     parent::handleException($e);
   }
   
-  protected function ignoreException(Exception $e)
-  {    
-    foreach ($this->options['ignore_exceptions'] as $ignoreClass) {
-      if ($e instanceof $ignoreClass) {
-        $this->logIgnored($e);
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
+  /**
+   * 
+   *
+   * @param Exception $e
+   *
+   * @return
+   */
   protected function ignoreError(Exception $e)
   {
     $code = $e->getCode();
     if (empty($code) && $e instanceof ErrorException) {
       $code = $e->getSeverity();
     }
-    $ignore_errors = $this->options['ignore_errors'];
-    if (in_array($code, $ignore_errors)) {
-      $this->logIgnored($e);
+    if (in_array($code, $this->options['ignore_errors'])) {
+      $this->logIgnored($e);      
       return true;
     }
    
@@ -134,19 +132,41 @@ class fpErrorNotifierHandlerIgnore extends fpErrorNotifierHandler
     if (!$this->options['log_ignored']) return;
     
     $this->notifier()->context()->getLogger()->info(
-      'fpErrorNotifierPlugin: Ignored exception `'.get_class($e).'`. Message `'.$e->getMessage().
+      'fpErrorNotifierPlugin: Ignored exception `'.get_class($e).'`. Message `'.$e->getMessage() .
       '`. File `'.$e->getFile().'`. Line `'.$e->getLine().'`'); 
   }
   
   /**
-   * 
+   * Add or remore errors from ignore list on the fly 
    * 
    * @param int $code
-   * @param bool $status
+   * @param bool $status - true - put, false - remove error from list
    */
-  public function setIgnore($code, $status)
+  public function setIgnore($code, $status = true)
   {
-    $this->options['ignore_errors'][$code] = $status;
+    if ($status && !in_array($code, $this->options['ignore_errors'])) {
+      $this->options['ignore_errors'][] = $code;
+    } elseif (!$status && in_array($code, $this->options['ignore_errors'])) {
+      unset($this->options['ignore_errors'][array_search($code, $this->options['ignore_errors'])]);
+    }
   }
   
+  /**
+   * 
+   *
+   * @param Exception $e
+   *
+   * @return
+   */
+  protected function ignoreException(Exception $e)
+  {    
+    foreach ($this->options['ignore_exceptions'] as $ignoreClass) {
+      if ($e instanceof $ignoreClass) {
+        $this->logIgnored($e);
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
