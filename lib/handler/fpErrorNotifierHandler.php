@@ -94,11 +94,13 @@ class fpErrorNotifierHandler
     $message->addSection('Exception', $this->notifier()->helper()->formatException($e));
     
     $count = 1;
-    while ($previous = $e->getPrevious()) {
+    if(method_exists($e,'getPrevious')) while ($previous = $e->getPrevious()) {
       $message->addSection("Previous Exception #{$count}", $this->notifier()->helper()->formatException($previous));
       
       $e = $previous;
       $count++; 
+      
+      if(!method_exists($e,'getPrevious')) break;      
     }
     
     $message->addSection('Server', $this->notifier()->helper()->formatServer());
