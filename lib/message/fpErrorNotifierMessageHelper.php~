@@ -45,15 +45,12 @@ class fpErrorNotifierMessageHelper
     
     return array(
       'subject' => $title,
-      'user' => $context->getUser()->getName(),
       'uri' => $uri,
       'environment' => sfConfig::get('sf_environment', 'undefined'),
       'module' => $context->getModuleName(),
       'action' => $context->getActionName(),
       'generated at' => date('H:i:s j F Y')
     );
-    
-
   }
   
   /**
@@ -75,7 +72,7 @@ class fpErrorNotifierMessageHelper
   {
     $env = sfConfig::get('sf_environment', 'undefined');
     
-    return "ERROR: {$_SERVER['HTTP_HOST']} - {$env} - {$title}";
+    return "Notification: {$env} - {$title}";
   }
   
   /**
