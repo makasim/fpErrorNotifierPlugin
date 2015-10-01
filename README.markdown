@@ -231,7 +231,7 @@ _notify.yml_
 But this code creates a hard coded relation between your code and the plugin isn't it? 
 It can be done this way but it is not a good idea. 
 So how can we do it better?
-Below we are sending absolutly the same message using sfEventDispatcher:
+Below we are sending absolutely the same message using sfEventDispatcher:
     
     <?php
     
